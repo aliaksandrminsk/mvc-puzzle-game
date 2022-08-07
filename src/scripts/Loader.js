@@ -1,6 +1,6 @@
 import { LoaderConfig } from "./LoaderConfig";
-import { Globals } from "./Globals";
-import { GLProgram } from "pixi.js";
+//import { Globals } from "./Globals";
+//import { GLProgram } from "pixi.js";
 
 export class Loader {
     constructor(loader) {
@@ -15,8 +15,8 @@ export class Loader {
             }
     
             this.loader.load((loader, resources) => {
-                Globals.resources = resources;
-                console.log(Globals);
+                //Globals.resources = resources;
+                //console.log(Globals);
                 resolve();
             });
         });
