@@ -29,7 +29,6 @@ export class GameView extends utils.EventEmitter {
     // this.bg = Sprite.from('bg');
     this.bg = new Sprite(Texture.from("bg"));
 
-    console.log("1111 ", this.bg);
     this.bg.width = window.innerWidth;
     this.bg.height = window.innerHeight;
     this.container.addChild(this.bg);

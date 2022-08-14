@@ -21,12 +21,12 @@ export class App {
   }
 
   start() {
-    // create game MVC
+    // create game MVC.
     this._gameModel = new Game();
     this._gameView = new GameView(this._gameModel);
     this._gameController = new GameController(this._gameModel, this._gameView);
 
-    // add gameView to PIXI stage
+    // add gameView to PIXI stage.
     this.app.stage.addChild(this._gameView.container);
 
     this.app.ticker.add(() => {
