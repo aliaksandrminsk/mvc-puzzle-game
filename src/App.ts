@@ -6,15 +6,13 @@ import { GameView } from "./views/GameView";
 import { Game } from "./models/Game";
 
 export class App {
-  // Model-View-Controller instances for the game
-  private _gameModel: Game | undefined;
-  private _gameController: GameController | undefined;
-  private _gameView: GameView | undefined;
-  private app: PIXI.Application;
+  protected _gameModel: Game | null = null;
+  protected _gameController: GameController | null = null;
+  protected _gameView: GameView | null = null;
+  protected app: PIXI.Application = new PIXI.Application({ resizeTo: window });
 
   run() {
-    // create canvas
-    this.app = new PIXI.Application({ resizeTo: window });
+    // Add to Dom
     document.body.appendChild(this.app.view);
 
     // load sprites
@@ -34,8 +32,5 @@ export class App {
     this.app.ticker.add(() => {
       TWEEN.update();
     });
-
-    //this.scene = new MainScene();
-    //this.app.stage.addChild(this.scene.container);
   }
 }
