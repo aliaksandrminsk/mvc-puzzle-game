@@ -3,7 +3,7 @@ import { PuzzlePiece } from "./PuzzlePiece";
 import { Game } from "../models/Game";
 import { Container, Sprite, Texture } from "pixi.js";
 import * as utils from "@pixi/utils";
-import { Point } from "pixi.js";
+import { Point, Text } from "pixi.js";
 
 export class GameView extends utils.EventEmitter {
   public container: Container;
@@ -25,6 +25,16 @@ export class GameView extends utils.EventEmitter {
     this.grid.position.set(0, 0);
     this.grid.x = window.innerWidth / 2 - this.grid.width / 2;
     this.grid.y = window.innerHeight / 2 - this.grid.height / 2;
+
+    const title = new Text("This is a PixiJS text", {
+      fontFamily: "Arial",
+      fontSize: 36,
+      fill: 0xff1010,
+      align: "center",
+    });
+    this.container.addChild(title);
+    title.anchor.set(0.5);
+    title.position.set(window.innerWidth / 2, 50);
   }
 
   createBackground() {
