@@ -1,14 +1,15 @@
-import { PuzzleGridConfig } from "../PuzzleGridConfig";
+import { puzzleGridPositions, puzzleGridTypes } from "../config";
 import { PuzzlePiece } from "./PuzzlePiece";
 import { Game } from "../models/Game";
 import { Container, Sprite, Texture } from "pixi.js";
 import * as utils from "@pixi/utils";
+import { Point } from "pixi.js";
 
 export class GameView extends utils.EventEmitter {
   public container: Container;
   private readonly grid: Container;
   private _game: Game;
-  private bg: Sprite;
+  private bg: Sprite | undefined;
 
   constructor(game: Game) {
     super();
@@ -22,11 +23,10 @@ export class GameView extends utils.EventEmitter {
     this.grid.x = window.innerWidth / 2;
     this.grid.y = window.innerHeight / 2;
     this.createPuzzlePieces();
+    this.grid.pivot.set(this.grid.width / 2, this.grid.height / 2);
   }
 
   createBackground() {
-    //this.bg = new PIXI.Sprite(Globals.resources["bg"].texture);
-    // this.bg = Sprite.from('bg');
     this.bg = new Sprite(Texture.from("bg"));
 
     this.bg.width = window.innerWidth;
@@ -35,22 +35,30 @@ export class GameView extends utils.EventEmitter {
   }
 
   createPuzzlePieces() {
-    //this.pieces = [];
+    let positions = [...puzzleGridPositions];
+    let types = [...puzzleGridTypes];
 
-    let ids = PuzzleGridConfig.map((field) => field.id);
-    PuzzleGridConfig.forEach((field) => {
-      const random = Math.floor(Math.random() * ids.length); // [0, 8]
-      const id = ids[random];
-      ids = ids.filter((item) => item !== id);
+    puzzleGridPositions.forEach((field) => {
+      const positionsId = Math.floor(Math.random() * positions.length);
+      const positionData = positions[positionsId];
+      positions = positions.filter((item) => item.id !== positionData.id);
 
-      const piece = new PuzzlePiece(id, field);
+      const typeId = Math.floor(Math.random() * types.length);
+      const typeData = types[typeId];
+      types = types.filter((item) => item.id !== typeData.id);
+
+      const piece = new PuzzlePiece(
+        positionData.id,
+        typeData.type,
+        new Point(field.x, field.y)
+      );
       //piece.on('dragend', () => this.onPieceDragEnd(piece));
       this.grid.addChild(piece.sprite);
       this._game.pieces.push(piece);
     });
   }
 
-  onPieceDragEnd(piece) {
+  onPieceDragEnd(piece: PuzzlePiece) {
     const pieceToReplace = this._game.pieces.find(
       (item) =>
         item !== piece &&

@@ -1,16 +1,19 @@
 import * as PIXI from "pixi.js";
 import TWEEN from "@tweenjs/tween.js";
-//import { Globals } from "./Globals";
+import { Point } from "pixi.js";
 
 export class PuzzlePiece extends PIXI.utils.EventEmitter {
-  constructor(id, field) {
-    super();
+  sprite: PIXI.Sprite;
+  field: Point;
+  touchPosition: Point = new Point(0, 0);
+  dragging: boolean = false;
 
-    //this.sprite = new PIXI.Sprite(Globals.resources[`puzzle${id}`].texture);
-    this.sprite = PIXI.Sprite.from(`puzzle${id}`);
+  constructor(id: number, type: number, field: Point) {
+    super();
+    this.sprite = PIXI.Sprite.from(`puzzle${type}`);
     this.sprite.x = field.x;
     this.sprite.y = field.y;
-    this.sprite.anchor.set(0.5);
+    this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.scale.set(0.5);
     this.field = field;
     this.sprite.interactive = true;
@@ -24,18 +27,16 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
   // this.sprite.on("pointerup", this.onTouchEnd, this);
   //}
 
-  onTouchStart(event) {
+  onTouchStart(event: PIXI.InteractionEvent) {
     // 1. save the position of the mouse cursor
-    this.touchPosition = { x: event.data.global.x, y: event.data.global.y };
+    this.touchPosition = new Point(event.data.global.x, event.data.global.y);
 
     // 2. set the dragging state for this sprite
     this.dragging = true;
     this.sprite.zIndex = 2;
-
-    //Globals.resources.click.sound.play();
   }
 
-  onTouchMove(event) {
+  onTouchMove(event: PIXI.InteractionEvent) {
     if (!this.dragging) {
       return;
     }
@@ -56,26 +57,21 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     const tween = new TWEEN.Tween(this.sprite);
     tween.to({ x: this.field.x, y: this.field.y }, 300);
     tween.onStart(() => {
-      console.log("tween started");
       this.sprite.zIndex = 1;
     });
     tween.onUpdate(() => {
-      console.log("tween updated");
+      //console.log("tween updated");
     });
     tween.onComplete(() => {
-      console.log("tween completed");
       this.sprite.zIndex = 0;
     });
     tween.easing(TWEEN.Easing.Back.Out);
-
     tween.start();
-
-    // this.sprite.x = this.field.x;
-    // this.sprite.y = this.field.y;
+    this.sprite.x = this.field.x;
+    this.sprite.y = this.field.y;
   }
 
   onTouchEnd() {
-    //Globals.resources.click.sound.play();
     this.dragging = false;
     this.sprite.zIndex = 1;
     this.emit("dragend");
@@ -97,7 +93,7 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     return this.sprite.y + this.sprite.height / 2;
   }
 
-  setField(field) {
+  setField(field: Point) {
     this.field = field;
     this.reset();
   }
