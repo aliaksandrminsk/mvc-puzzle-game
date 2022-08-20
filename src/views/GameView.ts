@@ -20,10 +20,11 @@ export class GameView extends utils.EventEmitter {
     this.grid = new Container();
     this.grid.sortableChildren = true;
     this.container.addChild(this.grid);
-    this.grid.x = window.innerWidth / 2;
-    this.grid.y = window.innerHeight / 2;
     this.createPuzzlePieces();
-    this.grid.pivot.set(this.grid.width / 2, this.grid.height / 2);
+    this.grid.pivot.set(-75, 75);
+    this.grid.position.set(0, 0);
+    this.grid.x = window.innerWidth / 2 - this.grid.width / 2;
+    this.grid.y = window.innerHeight / 2 - this.grid.height / 2;
   }
 
   createBackground() {
