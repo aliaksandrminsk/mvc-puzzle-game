@@ -4,27 +4,22 @@ import { Game } from "../models/Game";
 import { Container, Sprite, Texture } from "pixi.js";
 import * as utils from "@pixi/utils";
 import { Point, Text } from "pixi.js";
+import { InstructionWindow } from "./windows/InstructionWindow";
+import { ModalWindow } from "./windows/ModalWindow";
 
 export class GameView extends utils.EventEmitter {
   public container: Container;
-  private readonly grid: Container;
+  private grid: Container | undefined;
   private _game: Game;
   private bg: Sprite | undefined;
+  private modalWindow: ModalWindow | null = null;
 
   constructor(game: Game) {
     super();
     this._game = game;
     this.container = new Container();
     this.createBackground();
-
-    this.grid = new Container();
-    this.grid.sortableChildren = true;
-    this.container.addChild(this.grid);
-    this.createPuzzlePieces();
-    this.grid.pivot.set(-75, 75);
-    this.grid.position.set(0, 0);
-    this.grid.x = window.innerWidth / 2 - this.grid.width / 2;
-    this.grid.y = window.innerHeight / 2 - this.grid.height / 2;
+    //this.createGrid();
 
     const title = new Text("This is a PixiJS text", {
       fontFamily: "Arial",
@@ -35,6 +30,16 @@ export class GameView extends utils.EventEmitter {
     this.container.addChild(title);
     title.anchor.set(0.5);
     title.position.set(window.innerWidth / 2, 50);
+  }
+
+  createGrid() {
+    this.grid = new Container();
+    this.grid.sortableChildren = true;
+    this.container.addChild(this.grid);
+    this.createPuzzlePieces();
+    this.grid.pivot.set(-75, 75);
+    this.grid.x = window.innerWidth / 2 - this.grid.width / 2;
+    this.grid.y = window.innerHeight / 2 - this.grid.height / 2;
   }
 
   createBackground() {
@@ -89,6 +94,24 @@ export class GameView extends utils.EventEmitter {
       piece.setField(replaceField);
     } else {
       piece.reset();
+    }
+  }
+
+  showInstructionWindow() {
+    this.modalWindow = new InstructionWindow();
+    this.container.addChild(this.modalWindow.view);
+
+    this.modalWindow.view.x = window.innerWidth / 2;
+    this.modalWindow.view.y = window.innerHeight / 2;
+  }
+
+  //showLosingWindow() {}
+  //showWinWindow() {}
+
+  hideWindow() {
+    if (this.modalWindow) {
+      this.container.removeChild(this.modalWindow.view);
+      this.modalWindow.destroy();
     }
   }
 }
