@@ -1,6 +1,12 @@
+import { Grid } from "./Grid";
+
 export class Game {
-  public pieces: Array<any> = [];
+  protected _grid: Grid;
   constructor() {
-    this.pieces = [];
+    this._grid = new Grid();
+  }
+
+  public get grid(): Grid {
+    return this._grid;
   }
 }
