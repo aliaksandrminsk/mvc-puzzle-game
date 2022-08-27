@@ -6,12 +6,14 @@ import * as utils from "@pixi/utils";
 import { Point, Text } from "pixi.js";
 import { InstructionWindow } from "./windows/InstructionWindow";
 import { ModalWindow } from "./windows/ModalWindow";
+import { LosingWindow } from "./windows/LosingWindow";
+import { WinWindow } from "./windows/WinWindow";
 
 export class GameView extends utils.EventEmitter {
   public container: Container;
-  private grid: Container | undefined;
+  private grid: Container | null = null;
   private _game: Game;
-  private bg: Sprite | undefined;
+  private bg: Sprite | null = null;
   private modalWindow: ModalWindow | null = null;
 
   constructor(game: Game) {
@@ -19,7 +21,6 @@ export class GameView extends utils.EventEmitter {
     this._game = game;
     this.container = new Container();
     this.createBackground();
-    //this.createGrid();
 
     const title = new Text("This is a PixiJS text", {
       fontFamily: "Arial",
@@ -32,23 +33,37 @@ export class GameView extends utils.EventEmitter {
     title.position.set(window.innerWidth / 2, 50);
   }
 
+  createBackground() {
+    this.bg = new Sprite(Texture.from("bg"));
+    this.bg.width = window.innerWidth;
+    this.bg.height = window.innerHeight;
+    this.container.addChildAt(this.bg, 0);
+  }
+
   createGrid() {
     this.grid = new Container();
     this.grid.sortableChildren = true;
-    this.container.addChild(this.grid);
+    this.container.addChildAt(this.grid, 1);
     this.createPuzzlePieces();
     this.grid.pivot.set(-75, 75);
     this.grid.x = window.innerWidth / 2 - this.grid.width / 2;
     this.grid.y = window.innerHeight / 2 - this.grid.height / 2;
   }
 
-  createBackground() {
-    this.bg = new Sprite(Texture.from("bg"));
-
-    this.bg.width = window.innerWidth;
-    this.bg.height = window.innerHeight;
-    this.container.addChild(this.bg);
+  removeGrid() {
+    if (this.grid) {
+      this.container.removeChild(this.grid);
+    }
+    this.grid = null;
+    this._game.pieces = [];
   }
+
+  // removePuzzlePieces() {
+  //   //this._game.pieces.push(piece);
+  //   for (let item of this._game.pieces) {
+  //     this.grid.removeChild(piece.sprite);
+  //   }
+  // }
 
   createPuzzlePieces() {
     let positions = [...puzzleGridPositions];
@@ -69,8 +84,10 @@ export class GameView extends utils.EventEmitter {
         new Point(field.x, field.y)
       );
       //piece.on('dragend', () => this.onPieceDragEnd(piece));
-      this.grid.addChild(piece.sprite);
-      this._game.pieces.push(piece);
+      if (this.grid) {
+        this.grid.addChild(piece.sprite);
+        this._game.pieces.push(piece);
+      }
     });
   }
 
@@ -99,14 +116,26 @@ export class GameView extends utils.EventEmitter {
 
   showInstructionWindow() {
     this.modalWindow = new InstructionWindow();
-    this.container.addChild(this.modalWindow.view);
+    this.container.addChildAt(this.modalWindow.view, 2);
 
     this.modalWindow.view.x = window.innerWidth / 2;
     this.modalWindow.view.y = window.innerHeight / 2;
   }
 
-  //showLosingWindow() {}
-  //showWinWindow() {}
+  showLosingWindow() {
+    this.modalWindow = new LosingWindow();
+    this.container.addChildAt(this.modalWindow.view, 2);
+
+    this.modalWindow.view.x = window.innerWidth / 2;
+    this.modalWindow.view.y = window.innerHeight / 2;
+  }
+  showWinWindow() {
+    this.modalWindow = new WinWindow();
+    this.container.addChildAt(this.modalWindow.view, 2);
+
+    this.modalWindow.view.x = window.innerWidth / 2;
+    this.modalWindow.view.y = window.innerHeight / 2;
+  }
 
   hideWindow() {
     if (this.modalWindow) {
