@@ -43,9 +43,6 @@ export class GameView extends utils.EventEmitter {
   }
 
   createGrid() {
-    //this.grid = new Container();
-    //this.grid.sortableChildren = true;
-    //this.container.addChildAt(this.grid, 1);
     this.grid.createPuzzlePieces();
     this.grid.pivot.set(-75, 75);
     this.grid.x = window.innerWidth / 2 - this.grid.width / 2;
@@ -59,55 +56,6 @@ export class GameView extends utils.EventEmitter {
   get gridView(): GridView {
     return this.grid;
   }
-
-  // createPuzzlePieces() {
-  //   let positions = [...puzzleGridPositions];
-  //   let types = [...puzzleGridTypes];
-  //
-  //   puzzleGridPositions.forEach((field) => {
-  //     const positionsId = Math.floor(Math.random() * positions.length);
-  //     const positionData = positions[positionsId];
-  //     positions = positions.filter((item) => item.id !== positionData.id);
-  //
-  //     const typeId = Math.floor(Math.random() * types.length);
-  //     const typeData = types[typeId];
-  //     types = types.filter((item) => item.id !== typeData.id);
-  //
-  //     const piece = new PuzzlePiece(
-  //       positionData.id,
-  //       typeData.type,
-  //       new Point(field.x, field.y)
-  //     );
-  //     //piece.on('dragend', () => this.onPieceDragEnd(piece));
-  //     if (this.grid) {
-  //       this.grid.addChild(piece.sprite);
-  //       this._game.pieces.push(piece);
-  //     }
-  //   });
-  // }
-  //
-  // onPieceDragEnd(piece: PuzzlePiece) {
-  //   const pieceToReplace = this._game.pieces.find(
-  //     (item) =>
-  //       item !== piece &&
-  //       // piece.center to the right of the left side
-  //       piece.sprite.x >= item.left &&
-  //       // piece.center to the left of the right side
-  //       piece.sprite.x <= item.right &&
-  //       // piece.center below the top side
-  //       piece.sprite.y <= item.bottom &&
-  //       // piece.center above the bottom side
-  //       piece.sprite.y >= item.top
-  //   );
-  //
-  //   if (pieceToReplace) {
-  //     const replaceField = pieceToReplace.field;
-  //     pieceToReplace.setField(piece.field);
-  //     piece.setField(replaceField);
-  //   } else {
-  //     piece.reset();
-  //   }
-  // }
 
   showInstructionWindow() {
     this.modalWindow = new InstructionWindow();

@@ -2,6 +2,7 @@ import { puzzleGridPositions, puzzleGridTypes } from "../config";
 import { PuzzlePiece } from "./PuzzlePiece";
 import { Container, Point } from "pixi.js";
 import { Grid } from "../models/Grid";
+import { EventType } from "../Event";
 
 export class GridView extends Container {
   private _grid: Grid;
@@ -65,6 +66,10 @@ export class GridView extends Container {
       const replaceArea = pieceToReplace.area;
       pieceToReplace.setPosition(piece.field, piece.area);
       piece.setPosition(replaceField, replaceArea);
+      if (this.isWinCombination()) {
+        const event = new Event(EventType.WIN_GAME);
+        window.dispatchEvent(event);
+      }
     } else {
       piece.reset();
     }

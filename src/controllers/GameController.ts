@@ -8,6 +8,8 @@ export class GameController {
   private _gameView: GameView;
   private readonly _gridController: GridController;
 
+  private gameTimer: ReturnType<typeof setTimeout> | null = null;
+
   constructor(game: Game, gameView: GameView) {
     this._gameModel = game;
     this._gameView = gameView;
@@ -43,7 +45,7 @@ export class GameController {
     this._gameView.hideWindow();
     this.gridController.setInteractive();
 
-    setTimeout(() => {
+    this.gameTimer = setTimeout(() => {
       if (this._gameView.gridView.isWinCombination()) {
         console.log("WIN_GAME");
         const event = new Event(EventType.WIN_GAME);
@@ -62,6 +64,7 @@ export class GameController {
   }
 
   public winGame() {
+    if (this.gameTimer) clearTimeout(this.gameTimer);
     this._gameView.hideWindow();
     this._gameView.showWinWindow();
   }
