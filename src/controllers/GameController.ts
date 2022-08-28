@@ -41,12 +41,19 @@ export class GameController {
 
   public startGame() {
     this._gameView.hideWindow();
-    this.gridController.initPuzzlePieces();
+    this.gridController.setInteractive();
 
     setTimeout(() => {
-      const event = new Event(EventType.LOSE_GAME);
-      window.dispatchEvent(event);
-    }, 1000);
+      if (this._gameView.gridView.isWinCombination()) {
+        console.log("WIN_GAME");
+        const event = new Event(EventType.WIN_GAME);
+        window.dispatchEvent(event);
+      } else {
+        console.log("LOSE_GAME");
+        const event = new Event(EventType.LOSE_GAME);
+        window.dispatchEvent(event);
+      }
+    }, 20000);
   }
 
   public loseGame() {

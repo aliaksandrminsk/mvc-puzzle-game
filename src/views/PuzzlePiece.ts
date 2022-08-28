@@ -7,16 +7,20 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
   field: Point;
   touchPosition: Point = new Point(0, 0);
   dragging: boolean = false;
+  type: number;
+  area: number;
 
-  constructor(id: number, type: number, field: Point) {
+  constructor(id: number, type: number, field: Point, area: number) {
     super();
+    this.type = type;
     this.sprite = PIXI.Sprite.from(`puzzle${type}`);
     this.sprite.x = field.x;
     this.sprite.y = field.y;
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.scale.set(0.5);
     this.field = field;
-    this.sprite.interactive = true;
+    this.area = area;
+    //this.sprite.interactive = true;
     //this.setInteractive();
   }
 
@@ -93,8 +97,9 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     return this.sprite.y + this.sprite.height / 2;
   }
 
-  setField(field: Point) {
+  setPosition(field: Point, area: number) {
     this.field = field;
+    this.area = area;
     this.reset();
   }
 }

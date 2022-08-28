@@ -13,28 +13,30 @@ export class GridView extends Container {
   }
 
   createPuzzlePieces() {
-    let positions = [...puzzleGridPositions];
-    let types = [...puzzleGridTypes];
+    const positions = [...puzzleGridPositions];
+    const types = [...puzzleGridTypes];
 
-    puzzleGridPositions.forEach((field) => {
+    while (positions.length > 0) {
       const positionsId = Math.floor(Math.random() * positions.length);
       const positionData = positions[positionsId];
-      positions = positions.filter((item) => item.id !== positionData.id);
+      positions.splice(positionsId, 1);
 
       const typeId = Math.floor(Math.random() * types.length);
       const typeData = types[typeId];
-      types = types.filter((item) => item.id !== typeData.id);
+      types.splice(typeId, 1);
 
       const piece = new PuzzlePiece(
         positionData.id,
         typeData.type,
-        new Point(field.x, field.y)
+        new Point(positionData.x, positionData.y),
+        positionData.area
       );
+
       //piece.on('dragend', () => this.onPieceDragEnd(piece));
 
       this.addChild(piece.sprite);
       this._grid.pieces.push(piece);
-    });
+    }
   }
 
   removePuzzlePieces() {
@@ -60,10 +62,32 @@ export class GridView extends Container {
 
     if (pieceToReplace) {
       const replaceField = pieceToReplace.field;
-      pieceToReplace.setField(piece.field);
-      piece.setField(replaceField);
+      const replaceArea = pieceToReplace.area;
+      pieceToReplace.setPosition(piece.field, piece.area);
+      piece.setPosition(replaceField, replaceArea);
     } else {
       piece.reset();
     }
+  }
+
+  public isWinCombination() {
+    for (let areaId = 0; areaId < 4; areaId++) {
+      const types = [];
+
+      for (const piece of this._grid.pieces) {
+        if (piece.area === areaId) {
+          types.push(piece.type);
+        }
+      }
+      if (types.length !== 4) {
+        return false;
+      }
+      for (let index = 1; index < types.length; index++) {
+        if (types[index - 1] != types[index]) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

@@ -10,8 +10,9 @@ export class GridController {
     this._gridView = gridView;
   }
 
-  public initPuzzlePieces() {
+  public setInteractive() {
     for (const piece of this._grid.pieces) {
+      piece.sprite.interactive = true;
       piece.on("dragend", () => this._gridView.onPieceDragEnd(piece));
       piece.sprite.on("pointerdown", (e: any) => piece.onTouchStart(e));
       piece.sprite.on("pointermove", (e: any) => piece.onTouchMove(e));
