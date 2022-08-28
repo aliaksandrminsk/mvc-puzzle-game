@@ -7,10 +7,12 @@ import { ModalWindow } from "./windows/ModalWindow";
 import { LosingWindow } from "./windows/LosingWindow";
 import { WinWindow } from "./windows/WinWindow";
 import { GridView } from "./GridView";
+import { TimerSlider } from "./TimerSlider";
 
 export class GameView extends utils.EventEmitter {
   public container: Container;
   private readonly grid: GridView;
+  public readonly slider: TimerSlider;
   private _game: Game;
   private bg: Sprite | null = null;
   private modalWindow: ModalWindow | null = null;
@@ -33,6 +35,11 @@ export class GameView extends utils.EventEmitter {
     this.container.addChild(title);
     title.anchor.set(0.5);
     title.position.set(window.innerWidth / 2, 50);
+
+    this.slider = new TimerSlider();
+    this.container.addChild(this.slider);
+    this.slider.pivot.set(this.slider.width / 2, this.slider.height / 2);
+    this.slider.position.set(window.innerWidth / 2, 800);
   }
 
   createBackground() {

@@ -39,6 +39,7 @@ export class GameController {
     this._gameView.createGrid();
     this._gameView.hideWindow();
     this._gameView.showInstructionWindow();
+    this._gameView.slider.reset();
   }
 
   public startGame() {
@@ -47,23 +48,24 @@ export class GameController {
 
     this.gameTimer = setTimeout(() => {
       if (this._gameView.gridView.isWinCombination()) {
-        console.log("WIN_GAME");
         const event = new Event(EventType.WIN_GAME);
         window.dispatchEvent(event);
       } else {
-        console.log("LOSE_GAME");
         const event = new Event(EventType.LOSE_GAME);
         window.dispatchEvent(event);
       }
     }, 20000);
+    this._gameView.slider.start(20000);
   }
 
   public loseGame() {
+    this._gameView.slider.stop();
     this._gameView.hideWindow();
     this._gameView.showLosingWindow();
   }
 
   public winGame() {
+    this._gameView.slider.stop();
     if (this.gameTimer) clearTimeout(this.gameTimer);
     this._gameView.hideWindow();
     this._gameView.showWinWindow();
