@@ -1,1 +1,9 @@
 https://alexatnet.com/model-view-controller-mvc-in-javascript_ru/
+
+
+1) setInterval - па іншаму, праз ticker абнаўляць прелоудер
+2) mvc
+3) праверыць на мабіле.
+4) .eslintrc.js
+5) webpack.config.js
+6) канфиг у мадэль або асобны файл
