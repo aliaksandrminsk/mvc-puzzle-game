@@ -13,7 +13,6 @@ export class GridController {
 
   public enableInteractivity() {
     for (const piece of this._grid.pieces) {
-      piece.sprite.interactive = true;
       piece.on("dragend", () => this._gridView.onPieceDragEnd(piece));
       piece.sprite.on("pointerdown", (e: PIXI.InteractionEvent) =>
         piece.onTouchStart(e)
@@ -27,7 +26,6 @@ export class GridController {
 
   public disableInteractivity() {
     for (const piece of this._grid.pieces) {
-      piece.sprite.interactive = false;
       piece.removeAllListeners("dragend");
       piece.sprite.removeAllListeners("pointerdown");
       piece.sprite.removeAllListeners("pointermove");

@@ -18,18 +18,10 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     this.sprite.y = field.y;
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.scale.set(0.5);
+    this.sprite.interactive = true;
     this.field = field;
     this.area = area;
-    //this.sprite.interactive = true;
-    //this.setInteractive();
   }
-
-  //setInteractive() {
-  // this.sprite.interactive = true;
-  // this.sprite.on("pointerdown", this.onTouchStart, this);
-  // this.sprite.on("pointermove", this.onTouchMove, this);
-  // this.sprite.on("pointerup", this.onTouchEnd, this);
-  //}
 
   onTouchStart(event: PIXI.InteractionEvent) {
     // 1. save the position of the mouse cursor

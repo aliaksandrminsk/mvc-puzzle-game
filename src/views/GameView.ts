@@ -10,45 +10,53 @@ import { GridView } from "./GridView";
 import { TimerSlider } from "./TimerSlider";
 
 export class GameView extends utils.EventEmitter {
-  public container: Container;
   private readonly grid: GridView;
-  public readonly slider: TimerSlider;
   private _game: Game;
-  private bg: Sprite | null = null;
+
+  public container: Container;
+  public readonly slider: TimerSlider;
+  private readonly bg: Sprite;
   private modalWindow: ModalWindow | null = null;
 
   constructor(game: Game) {
     super();
     this._game = game;
     this.container = new Container();
-    this.createBackground();
 
+    //** Background
+    this.bg = new Sprite(Texture.from("bg"));
+    this.bg.width = window.innerWidth;
+    this.bg.height = window.innerHeight;
+    this.container.addChild(this.bg);
+
+    //** Puzzle grid.
     this.grid = new GridView(this._game.grid);
     this.container.addChild(this.grid);
 
-    const title = new Text("This is a PixiJS text", {
+    //** Title
+    const title = new Text("Puzzle Game", {
       fontFamily: "Arial",
       fontSize: 36,
-      fill: 0xff1010,
+      fontWeight: "600",
+      fill: 0x0010ff,
       align: "center",
     });
     this.container.addChild(title);
-    title.anchor.set(0.5);
-    title.position.set(window.innerWidth / 2, 50);
+    title.pivot.set(title.width / 2, title.height / 2);
+    title.position.set(window.innerWidth / 2, 80);
 
+    //** Slider
     this.slider = new TimerSlider();
     this.container.addChild(this.slider);
     this.slider.pivot.set(this.slider.width / 2, this.slider.height / 2);
     this.slider.position.set(window.innerWidth / 2, 800);
   }
 
-  createBackground() {
-    this.bg = new Sprite(Texture.from("bg"));
-    this.bg.width = window.innerWidth;
-    this.bg.height = window.innerHeight;
-    this.container.addChildAt(this.bg, 0);
+  get gridView(): GridView {
+    return this.grid;
   }
 
+  //** Create game area.
   createGrid() {
     this.grid.createPuzzlePieces();
     this.grid.pivot.set(-75, 75);
@@ -56,37 +64,39 @@ export class GameView extends utils.EventEmitter {
     this.grid.y = window.innerHeight / 2 - this.grid.height / 2;
   }
 
+  //** Clear game area.
   removeGrid() {
     this.grid.removePuzzlePieces();
   }
 
-  get gridView(): GridView {
-    return this.grid;
-  }
-
+  //** Show instruction modal window.
   showInstructionWindow() {
     this.modalWindow = new InstructionWindow();
-    this.container.addChildAt(this.modalWindow.view, 2);
+    this.container.addChild(this.modalWindow.view);
 
     this.modalWindow.view.x = window.innerWidth / 2;
     this.modalWindow.view.y = window.innerHeight / 2;
   }
 
+  //** Show losing modal window.
   showLosingWindow() {
     this.modalWindow = new LosingWindow();
-    this.container.addChildAt(this.modalWindow.view, 2);
+    this.container.addChild(this.modalWindow.view);
 
     this.modalWindow.view.x = window.innerWidth / 2;
     this.modalWindow.view.y = window.innerHeight / 2;
   }
+
+  //** Show win modal window.
   showWinWindow() {
     this.modalWindow = new WinWindow();
-    this.container.addChildAt(this.modalWindow.view, 2);
+    this.container.addChild(this.modalWindow.view);
 
     this.modalWindow.view.x = window.innerWidth / 2;
     this.modalWindow.view.y = window.innerHeight / 2;
   }
 
+  //** Hide modal window.
   hideWindow() {
     if (this.modalWindow) {
       this.container.removeChild(this.modalWindow.view);
