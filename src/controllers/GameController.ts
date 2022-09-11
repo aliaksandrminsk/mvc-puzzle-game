@@ -34,6 +34,7 @@ export class GameController {
     return this._gridController;
   }
 
+  //** Initialization of game.
   public initGame() {
     this._gameView.removeGrid();
     this._gameView.createGrid();
@@ -42,9 +43,10 @@ export class GameController {
     this._gameView.slider.reset();
   }
 
+  //** Start to play a game.
   public startGame() {
     this._gameView.hideWindow();
-    this.gridController.setInteractive();
+    this.gridController.enableInteractivity();
 
     this.gameTimer = setTimeout(() => {
       if (this._gameView.gridView.isWinCombination()) {
@@ -58,15 +60,19 @@ export class GameController {
     this._gameView.slider.start(20000);
   }
 
+  //** Handler of losing a game.
   public loseGame() {
     this._gameView.slider.stop();
+    this.gridController.disableInteractivity();
     this._gameView.hideWindow();
     this._gameView.showLosingWindow();
   }
 
+  //** Handler of winning a game.
   public winGame() {
     this._gameView.slider.stop();
     if (this.gameTimer) clearTimeout(this.gameTimer);
+    this.gridController.disableInteractivity();
     this._gameView.hideWindow();
     this._gameView.showWinWindow();
   }

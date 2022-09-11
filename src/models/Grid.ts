@@ -1,3 +1,5 @@
+import { PuzzlePiece } from "../views/PuzzlePiece";
+
 export class Grid {
-  public pieces: Array<any> = [];
+  public pieces: Array<PuzzlePiece> = [];
 }
