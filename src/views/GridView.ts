@@ -1,4 +1,4 @@
-import { puzzleGridPositions, puzzleGridTypes } from "../config";
+import { puzzleGridPositions } from "../config";
 import { PuzzlePiece } from "./PuzzlePiece";
 import { Container, Point } from "pixi.js";
 import { Grid } from "../models/Grid";
@@ -13,9 +13,10 @@ export class GridView extends Container {
     this.sortableChildren = true;
   }
 
+  //** Create puzzle elements.
   createPuzzlePieces() {
     const positions = [...puzzleGridPositions];
-    const types = [...puzzleGridTypes];
+    const types = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];
 
     while (positions.length > 0) {
       const positionsId = Math.floor(Math.random() * positions.length);
@@ -23,23 +24,21 @@ export class GridView extends Container {
       positions.splice(positionsId, 1);
 
       const typeId = Math.floor(Math.random() * types.length);
-      const typeData = types[typeId];
+      const typeValue = types[typeId];
       types.splice(typeId, 1);
 
       const piece = new PuzzlePiece(
         positionData.id,
-        typeData.type,
+        typeValue,
         new Point(positionData.x, positionData.y),
         positionData.area
       );
-
-      //piece.on('dragend', () => this.onPieceDragEnd(piece));
-
       this.addChild(piece.sprite);
       this._grid.pieces.push(piece);
     }
   }
 
+  //** Remove puzzle elements.
   removePuzzlePieces() {
     for (const piece of this._grid.pieces) {
       this.removeChild(piece.sprite);
@@ -47,6 +46,7 @@ export class GridView extends Container {
     this._grid.pieces = [];
   }
 
+  //** Swap puzzle elements.
   onPieceDragEnd(piece: PuzzlePiece) {
     const pieceToReplace = this._grid.pieces.find(
       (item) =>
@@ -67,14 +67,14 @@ export class GridView extends Container {
       pieceToReplace.setPosition(piece.field, piece.area);
       piece.setPosition(replaceField, replaceArea);
       if (this.isWinCombination()) {
-        const event = new Event(EventType.WIN_GAME);
-        window.dispatchEvent(event);
+        window.dispatchEvent(new Event(EventType.WIN_GAME));
       }
     } else {
       piece.reset();
     }
   }
 
+  //** Check win combination.
   public isWinCombination() {
     for (let areaId = 0; areaId < 4; areaId++) {
       const types = [];

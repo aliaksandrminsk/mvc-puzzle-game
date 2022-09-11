@@ -19,22 +19,3 @@ export const puzzleGridPositions = [
   { id: 15, x: 475, y: 475, area: 3 },
   { id: 16, x: 475, y: 630, area: 3 },
 ];
-
-export const puzzleGridTypes = [
-  { type: 1 },
-  { type: 1 },
-  { type: 1 },
-  { type: 1 },
-  { type: 2 },
-  { type: 2 },
-  { type: 2 },
-  { type: 2 },
-  { type: 3 },
-  { type: 3 },
-  { type: 3 },
-  { type: 3 },
-  { type: 4 },
-  { type: 4 },
-  { type: 4 },
-  { type: 4 },
-];

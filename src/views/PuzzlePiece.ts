@@ -55,9 +55,6 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     tween.onStart(() => {
       this.sprite.zIndex = 1;
     });
-    tween.onUpdate(() => {
-      //console.log("tween updated");
-    });
     tween.onComplete(() => {
       this.sprite.zIndex = 0;
     });
