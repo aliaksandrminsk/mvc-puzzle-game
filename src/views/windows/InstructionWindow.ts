@@ -1,61 +1,47 @@
-import { Texture, Sprite, Graphics, Text } from "pixi.js";
+import { Graphics, Text } from "pixi.js";
 import { ModalWindow } from "./ModalWindow";
 import { EventType } from "../../Event";
+import { Button } from "../Button";
 
 export class InstructionWindow extends ModalWindow {
-  textureButton: Texture;
-  textureButtonDown: Texture;
-  button: Sprite;
-
-  boundButtonDown = () => this.buttonDownHandler();
+  button: Button;
   boundButtonUp = () => this.buttonUpHandler();
 
   constructor() {
     super();
 
     const windowBackground = new Graphics();
-    windowBackground.beginFill(0xffff00);
-    windowBackground.lineStyle(5, 0xff0000);
-    windowBackground.drawRect(0, 0, 300, 200);
-    windowBackground.pivot.set(150, 100);
+    windowBackground.beginFill(0xff9ff9);
+    windowBackground.lineStyle(2, 0x000000);
+    windowBackground.drawRect(0, 0, 540, 300);
+    windowBackground.pivot.set(270, 150);
     this.content.addChild(windowBackground);
 
-    const title = new Text("Title", {
+    const title = new Text("MERGE ALL SIMILAR ITEMS\n BEFORE TIME RUNS OUT", {
       fontFamily: "Arial",
       fontSize: 36,
-      fill: 0xff1010,
+      fill: 0x001010,
       align: "center",
+      fontWeight: "600",
     });
-    title.anchor.set(0.5);
-    title.position.set(0, -80);
+    title.pivot.set(title.width / 2, title.height / 2);
+    title.position.set(0, -65);
     this.content.addChild(title);
 
-    this.textureButton = Texture.from("button");
-    this.textureButtonDown = Texture.from("button_down");
-    this.button = new Sprite(this.textureButton);
-    this.button.anchor.set(0.5);
-    this.button.position.set(0, 30);
-    this.button.interactive = true;
-    this.button.buttonMode = true;
-    this.button.on("pointerdown", this.boundButtonDown);
-    this.button.on("pointerup", this.boundButtonUp);
-    this.button.on("pointerupoutside", this.boundButtonUp);
+    this.button = new Button("Start");
+    this.button.position.set(0, 72);
     this.content.addChild(this.button);
+    this.button.interactive = true;
+    this.button.on("pointerup", this.boundButtonUp);
   }
 
-  buttonDownHandler() {
-    this.button.texture = this.textureButtonDown;
+  buttonUpHandler() {
     const event = new Event(EventType.START_GAME);
     window.dispatchEvent(event);
   }
 
-  buttonUpHandler() {
-    this.button.texture = this.textureButton;
-  }
-
   destroy() {
-    this.button.removeListener("pointerdown", this.boundButtonDown);
     this.button.removeListener("pointerup", this.boundButtonUp);
-    this.button.removeListener("pointerupoutside", this.boundButtonUp);
+    this.button.destroy();
   }
 }

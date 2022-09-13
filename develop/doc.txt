@@ -3,7 +3,18 @@ https://alexatnet.com/model-view-controller-mvc-in-javascript_ru/
 
 1) setInterval - па іншаму, праз ticker абнаўляць прелоудер
 2) mvc
-3) праверыць на мабіле.
+
 4) .eslintrc.js
 5) webpack.config.js
 6) канфиг у мадэль або асобны файл
+7) add sound
+8) test tasks
+9) language window in ereact
+10) localization in excel.
+
+-------------------
+1)праверыць на мабіле.
+2) mvc 
+a)  https://www.youtube.com/watch?v=eXl-jSSJs-Y  https://www.youtube.com/watch?v=9shKSKcSGDo
+b) https://alexatnet.com/model-view-controller-mvc-in-javascript_ru/
+c) e:\WORK2021\Examples for my site\PixiJS\from internet\hidden-blocks-master\

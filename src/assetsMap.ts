@@ -8,5 +8,6 @@ export const assetsMap = {
     { name: "button", url: "./button.png" },
     { name: "button_down", url: "./button_down.png" },
     { name: "button_over", url: "./button_over.png" },
+    { name: "png_button", url: "./png_button.png" },
   ],
 };
