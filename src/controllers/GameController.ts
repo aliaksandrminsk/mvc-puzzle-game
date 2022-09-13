@@ -8,6 +8,8 @@ export class GameController {
   private _gameView: GameView;
   private readonly _gridController: GridController;
 
+  private GAME_DURATION: number = 20000;
+
   private gameTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(game: Game, gameView: GameView) {
@@ -56,8 +58,8 @@ export class GameController {
         const event = new Event(EventType.LOSE_GAME);
         window.dispatchEvent(event);
       }
-    }, 20000);
-    this._gameView.slider.start(20000);
+    }, this.GAME_DURATION);
+    this._gameView.slider.start(this.GAME_DURATION);
   }
 
   //** Handler of losing a game.

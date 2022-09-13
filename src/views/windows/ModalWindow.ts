@@ -1,11 +1,11 @@
 import * as utils from "@pixi/utils";
 import { Container, Graphics } from "pixi.js";
 
-export class ModalWindow extends utils.EventEmitter {
+export abstract class ModalWindow extends utils.EventEmitter {
   public view: Container;
   public content: Container;
 
-  constructor() {
+  protected constructor() {
     super();
     this.view = new Container();
     this.content = new Container();
@@ -23,7 +23,5 @@ export class ModalWindow extends utils.EventEmitter {
     this.view.addChild(graphics);
   }
 
-  destroy() {
-    console.log("destroy");
-  }
+  abstract destroy(): void;
 }

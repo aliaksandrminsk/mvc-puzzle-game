@@ -6,20 +6,20 @@ export class WinWindow extends ModalWindow {
     super();
 
     const windowBackground = new Graphics();
-    windowBackground.beginFill(0xffff00);
-    windowBackground.lineStyle(5, 0xff0000);
-    windowBackground.drawRect(0, 0, 300, 200);
-    windowBackground.pivot.set(150, 100);
+    windowBackground.beginFill(0xff9ff9);
+    windowBackground.lineStyle(2, 0x000000);
+    windowBackground.drawCircle(0, 0, 200);
     this.content.addChild(windowBackground);
 
-    const title = new Text("Nice work", {
+    const title = new Text("Nice\n work", {
       fontFamily: "Arial",
-      fontSize: 36,
-      fill: 0xff1010,
+      fontSize: 100,
+      fill: 0x001010,
       align: "center",
+      fontWeight: "800",
     });
-    title.anchor.set(0.5);
-    title.position.set(0, -80);
+    title.pivot.set(title.width / 2, title.height / 2);
+    title.position.set(0, 0);
     this.content.addChild(title);
   }
 }
