@@ -28,14 +28,14 @@ export class LosingWindow extends ModalWindow {
     this.content.addChild(title);
 
     this.button = new Button("Try again!");
-    this.button.position.set(0, 280);
+    this.button.position.set(0, 272);
     this.content.addChild(this.button);
     this.button.interactive = true;
     this.button.on("pointerup", this.boundButtonUp);
   }
 
   buttonUpHandler() {
-    const event = new Event(EventType.INIT_GAME);
+    const event = new Event(EventType.START_GAME);
     window.dispatchEvent(event);
   }
 

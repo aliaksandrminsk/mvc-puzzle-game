@@ -23,8 +23,8 @@ export class GameController {
     );
 
     //** Add listeners to the GameController
-    window.addEventListener(EventType.START_GAME, () => this.startGame());
     window.addEventListener(EventType.INIT_GAME, () => this.initGame());
+    window.addEventListener(EventType.START_GAME, () => this.startGame());
     window.addEventListener(EventType.LOSE_GAME, () => this.loseGame());
     window.addEventListener(EventType.WIN_GAME, () => this.winGame());
 
@@ -38,7 +38,6 @@ export class GameController {
 
   //** Initialization of game.
   public initGame() {
-    this._gameView.removeGrid();
     this._gameView.createGrid();
     this._gameView.hideWindow();
     this._gameView.showInstructionWindow();
@@ -47,6 +46,8 @@ export class GameController {
 
   //** Start to play a game.
   public startGame() {
+    this._gameView.removeGrid();
+    this._gameView.createGrid();
     this._gameView.hideWindow();
     this.gridController.enableInteractivity();
 

@@ -36,7 +36,7 @@ export class GameView extends utils.EventEmitter {
     //** Title
     const title = new Text("Puzzle Game", {
       fontFamily: "Arial",
-      fontSize: 36,
+      fontSize: 50,
       fontWeight: "600",
       fill: 0x0010ff,
       align: "center",
