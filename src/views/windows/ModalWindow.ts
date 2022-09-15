@@ -5,16 +5,26 @@ import { constants } from "../../constants";
 export abstract class ModalWindow extends utils.EventEmitter {
   public view: Container;
   public content: Container;
+  public popUpBackground: Graphics;
 
   protected constructor() {
     super();
+
     this.view = new Container();
     this.content = new Container();
-    this.createWindowBackground();
+    this.createScreenBackground();
     this.view.addChild(this.content);
+
+    //** Create PopUp background.
+    this.popUpBackground = new Graphics();
+    this.content.addChild(this.popUpBackground);
+    this.content.position.set(
+      constants.GAME_AREA_SIZE_L / 2,
+      constants.GAME_AREA_SIZE_S / 2
+    );
   }
 
-  createWindowBackground() {
+  createScreenBackground() {
     const graphics = new Graphics();
     graphics.beginFill(0x000000);
     graphics.drawRect(

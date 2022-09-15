@@ -1,8 +1,7 @@
-import { Graphics, Text } from "pixi.js";
+import { Text } from "pixi.js";
 import { ModalWindow } from "./ModalWindow";
 import { EventType } from "../../Event";
 import { Button } from "../Button";
-import { constants } from "../../constants";
 
 export class LosingWindow extends ModalWindow {
   button: Button;
@@ -11,16 +10,12 @@ export class LosingWindow extends ModalWindow {
   constructor() {
     super();
 
-    const windowBackground = new Graphics();
-    windowBackground.beginFill(0xff9ff9);
-    windowBackground.lineStyle(2, 0x000000);
-    windowBackground.drawCircle(0, 0, 200);
-    this.content.addChild(windowBackground);
-    this.content.position.set(
-      constants.GAME_AREA_SIZE_L / 2,
-      constants.GAME_AREA_SIZE_S / 2
-    );
+    //** Create PopUp background.
+    this.popUpBackground.beginFill(0xff9ff9);
+    this.popUpBackground.lineStyle(2, 0x000000);
+    this.popUpBackground.drawCircle(0, 0, 200);
 
+    //** Create title.
     const title = new Text("Failed", {
       fontFamily: "Arial",
       fontSize: 100,
@@ -32,13 +27,15 @@ export class LosingWindow extends ModalWindow {
     title.position.set(0, 0);
     this.content.addChild(title);
 
+    //Create button.
     this.button = new Button("Try again!");
-    this.button.position.set(0, 272);
+    this.button.position.set(0, 275);
     this.content.addChild(this.button);
     this.button.interactive = true;
     this.button.on("pointerup", this.boundButtonUp);
   }
 
+  //** Handler of click to button.
   buttonUpHandler() {
     const event = new Event(EventType.START_GAME);
     window.dispatchEvent(event);

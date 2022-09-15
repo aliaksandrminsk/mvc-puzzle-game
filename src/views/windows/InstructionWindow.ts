@@ -1,8 +1,7 @@
-import { Graphics, Text } from "pixi.js";
+import { Text } from "pixi.js";
 import { ModalWindow } from "./ModalWindow";
 import { EventType } from "../../Event";
 import { Button } from "../Button";
-import { constants } from "../../constants";
 
 export class InstructionWindow extends ModalWindow {
   button: Button;
@@ -11,17 +10,13 @@ export class InstructionWindow extends ModalWindow {
   constructor() {
     super();
 
-    const windowBackground = new Graphics();
-    windowBackground.beginFill(0xff9ff9);
-    windowBackground.lineStyle(2, 0x000000);
-    windowBackground.drawRect(0, 0, 540, 300);
-    windowBackground.pivot.set(270, 150);
-    this.content.addChild(windowBackground);
-    this.content.position.set(
-      constants.GAME_AREA_SIZE_L / 2,
-      constants.GAME_AREA_SIZE_S / 2
-    );
+    //** Create PopUp background.
+    this.popUpBackground.beginFill(0xff9ff9);
+    this.popUpBackground.lineStyle(2, 0x000000);
+    this.popUpBackground.drawRect(0, 0, 540, 300);
+    this.popUpBackground.pivot.set(270, 150);
 
+    //** Create title.
     const title = new Text("MERGE ALL SIMILAR ITEMS\n BEFORE TIME RUNS OUT", {
       fontFamily: "Arial",
       fontSize: 36,
@@ -33,6 +28,7 @@ export class InstructionWindow extends ModalWindow {
     title.position.set(0, -65);
     this.content.addChild(title);
 
+    //Create button.
     this.button = new Button("Start");
     this.button.position.set(0, 72);
     this.content.addChild(this.button);
@@ -40,6 +36,7 @@ export class InstructionWindow extends ModalWindow {
     this.button.on("pointerup", this.boundButtonUp);
   }
 
+  //** Handler of click to button.
   buttonUpHandler() {
     const event = new Event(EventType.START_GAME);
     window.dispatchEvent(event);
