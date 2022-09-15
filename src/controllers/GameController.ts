@@ -2,13 +2,12 @@ import { Game } from "../models/Game";
 import { GameView } from "../views/GameView";
 import { EventType } from "../Event";
 import { GridController } from "./GridController";
+import { constants } from "../constants";
 
 export class GameController {
   private _gameModel: Game;
   private _gameView: GameView;
   private readonly _gridController: GridController;
-
-  private GAME_DURATION: number = 20000;
 
   private gameTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -59,8 +58,8 @@ export class GameController {
         const event = new Event(EventType.LOSE_GAME);
         window.dispatchEvent(event);
       }
-    }, this.GAME_DURATION);
-    this._gameView.slider.start(this.GAME_DURATION);
+    }, constants.GAME_DURATION);
+    this._gameView.slider.start(constants.GAME_DURATION);
   }
 
   //** Handler of losing a game.
