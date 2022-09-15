@@ -23,6 +23,22 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     this.area = area;
   }
 
+  setEnabled(value: boolean) {
+    if (value) {
+      this.sprite.on("pointerdown", (e: PIXI.InteractionEvent) =>
+        this.onTouchStart(e)
+      );
+      this.sprite.on("pointermove", (e: PIXI.InteractionEvent) =>
+        this.onTouchMove(e)
+      );
+      this.sprite.on("pointerup", () => this.onTouchEnd());
+    } else {
+      this.sprite.removeAllListeners("pointerdown");
+      this.sprite.removeAllListeners("pointermove");
+      this.sprite.removeAllListeners("pointerup");
+    }
+  }
+
   onTouchStart(event: PIXI.InteractionEvent) {
     // 1. save the position of the mouse cursor
     this.touchPosition = new Point(event.data.global.x, event.data.global.y);

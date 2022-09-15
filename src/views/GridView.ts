@@ -1,9 +1,7 @@
-//import { puzzleGridPositions } from "../config";
 import { PuzzlePiece } from "./PuzzlePiece";
 import { Container } from "pixi.js";
 import { Grid } from "../models/Grid";
 import { EventType } from "../Event";
-import * as PIXI from "pixi.js";
 
 export class GridView extends Container {
   private readonly _grid: Grid;
@@ -38,22 +36,14 @@ export class GridView extends Container {
   public enableInteractivity() {
     for (const piece of this._grid.pieces) {
       piece.on("dragend", () => this.onPieceDragEnd(piece));
-      piece.sprite.on("pointerdown", (e: PIXI.InteractionEvent) =>
-        piece.onTouchStart(e)
-      );
-      piece.sprite.on("pointermove", (e: PIXI.InteractionEvent) =>
-        piece.onTouchMove(e)
-      );
-      piece.sprite.on("pointerup", () => piece.onTouchEnd());
+      piece.setEnabled(true);
     }
   }
 
   public disableInteractivity() {
     for (const piece of this._grid.pieces) {
       piece.removeAllListeners("dragend");
-      piece.sprite.removeAllListeners("pointerdown");
-      piece.sprite.removeAllListeners("pointermove");
-      piece.sprite.removeAllListeners("pointerup");
+      piece.setEnabled(false);
     }
   }
 
