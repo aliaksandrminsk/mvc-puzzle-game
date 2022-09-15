@@ -33,14 +33,16 @@ export class App {
 
   //** Start game.
   start() {
+    const { h, w, backgroundTexture = "" } = this.check_device();
+
     // Create game MVC.
     this._gameModel = new Game();
+    this._gameModel.backgroundTexture = backgroundTexture;
     this._gameView = new GameView(this._gameModel);
     this._gameController = new GameController(this._gameModel, this._gameView);
 
     // Size and resize game.
     window.addEventListener("resize", () => this.resize());
-    const { h, w } = this.check_device();
     this.render.view.style.display = "block";
     this.render.view.style.width = w + "px";
     this.render.view.style.height = h + "px";
@@ -61,27 +63,27 @@ export class App {
   check_device() {
     let h = constants.GAME_AREA_SIZE_L;
     let w = constants.GAME_AREA_SIZE_S;
-    let textures: string = "";
+    let backgroundTexture;
     if (PIXI.utils.isMobile.phone) {
       if (window.innerHeight > window.innerWidth) {
         h = constants.GAME_AREA_SIZE_L;
         w = constants.GAME_AREA_SIZE_S;
-        textures = "basegame_vertical";
+        backgroundTexture = "bg_portrait";
       } else {
         h = constants.GAME_AREA_SIZE_S;
         w = constants.GAME_AREA_SIZE_L;
-        textures = "basegame";
+        backgroundTexture = "bg";
       }
     }
     if (!PIXI.utils.isMobile.phone && !PIXI.utils.isMobile.tablet) {
       h = constants.GAME_AREA_SIZE_S;
       w = constants.GAME_AREA_SIZE_L;
-      textures = "tablet_horizontal";
+      backgroundTexture = "bg";
     }
     return {
       h,
       w,
-      textures,
+      backgroundTexture,
     };
   }
 

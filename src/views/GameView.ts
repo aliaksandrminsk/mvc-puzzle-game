@@ -24,7 +24,7 @@ export class GameView extends utils.EventEmitter {
     this.container = new Container();
 
     //** Background
-    this.bg = new Sprite(Texture.from("bg"));
+    this.bg = new Sprite(Texture.from(game.backgroundTexture));
     this.container.addChild(this.bg);
 
     //** Puzzle grid.
