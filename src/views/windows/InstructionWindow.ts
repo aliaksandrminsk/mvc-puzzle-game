@@ -1,6 +1,5 @@
 import { Text } from "pixi.js";
 import { ModalWindow } from "./ModalWindow";
-import { EventType } from "../../Event";
 import { Button } from "../Button";
 
 export class InstructionWindow extends ModalWindow {
@@ -38,8 +37,7 @@ export class InstructionWindow extends ModalWindow {
 
   //** Handler of click to button.
   buttonUpHandler() {
-    const event = new Event(EventType.START_GAME);
-    window.dispatchEvent(event);
+    this.emit("click");
   }
 
   destroy() {

@@ -2,14 +2,11 @@ import { Game } from "../models/Game";
 import { GameView } from "../views/GameView";
 import { EventType } from "../Event";
 import { GridController } from "./GridController";
-import { constants } from "../constants";
 
 export class GameController {
   private readonly _gameModel: Game;
   private readonly _gameView: GameView;
   private readonly _gridController: GridController;
-
-  private gameTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(game: Game, gameView: GameView) {
     this._gameModel = game;
@@ -21,11 +18,10 @@ export class GameController {
       this.gameView.gridView
     );
 
-    //** Add listeners to the GameController
-    window.addEventListener(EventType.INIT_GAME, () => this.initGame());
-    window.addEventListener(EventType.START_GAME, () => this.startGame());
-    window.addEventListener(EventType.LOSE_GAME, () => this.loseGame());
-    window.addEventListener(EventType.WIN_GAME, () => this.winGame());
+    //** Add listeners to the GameController.
+    this.gameView.on(EventType.START_GAME, () => this.startGame());
+    this.gameView.on(EventType.WIN_GAME, () => this.winGame());
+    this.gameView.on(EventType.LOSE_GAME, () => this.loseGame());
 
     //** Initialization of game.
     this.initGame();
@@ -39,51 +35,26 @@ export class GameController {
     return this._gameModel;
   }
 
-  private get gridController(): GridController {
-    return this._gridController;
-  }
-
   //** Initialization of game.
   public initGame() {
-    this.gameView.createGrid();
-    this.gameView.hideWindow();
-    this.gameView.showInstructionWindow();
-    this.gameView.slider.reset();
+    this.gameModel.grid.createPuzzlePieces();
+    this.gameModel.state = "init";
   }
 
-  //** Start to play a game.
+  //** Set state when user play a game.
   public startGame() {
-    this.gameView.removeGrid();
-    this.gameView.createGrid();
-    this.gameView.hideWindow();
-    this.gridController.enableInteractivity();
-
-    this.gameTimer = setTimeout(() => {
-      if (this.gameView.gridView.isWinCombination()) {
-        const event = new Event(EventType.WIN_GAME);
-        window.dispatchEvent(event);
-      } else {
-        const event = new Event(EventType.LOSE_GAME);
-        window.dispatchEvent(event);
-      }
-    }, constants.GAME_DURATION);
-    this._gameView.slider.start(constants.GAME_DURATION);
+    this.gameModel.grid.clear();
+    this.gameModel.grid.createPuzzlePieces();
+    this.gameModel.state = "start";
   }
 
-  //** Handler of losing a game.
+  //** Set state of lose game.
   public loseGame() {
-    this.gameView.slider.stop();
-    this.gridController.disableInteractivity();
-    this.gameView.hideWindow();
-    this.gameView.showLosingWindow();
+    this.gameModel.state = "lose";
   }
 
-  //** Handler of winning a game.
+  //** Set state of win game.
   public winGame() {
-    this.gameView.slider.stop();
-    if (this.gameTimer) clearTimeout(this.gameTimer);
-    this.gridController.disableInteractivity();
-    this.gameView.hideWindow();
-    this.gameView.showWinWindow();
+    this.gameModel.state = "win";
   }
 }
