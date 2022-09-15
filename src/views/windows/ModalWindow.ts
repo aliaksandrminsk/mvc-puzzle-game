@@ -1,5 +1,6 @@
 import * as utils from "@pixi/utils";
 import { Container, Graphics } from "pixi.js";
+import { constants } from "../../constants";
 
 export abstract class ModalWindow extends utils.EventEmitter {
   public view: Container;
@@ -16,10 +17,13 @@ export abstract class ModalWindow extends utils.EventEmitter {
   createWindowBackground() {
     const graphics = new Graphics();
     graphics.beginFill(0x000000);
-    graphics.drawRect(0, 0, window.innerWidth, window.innerHeight);
+    graphics.drawRect(
+      0,
+      0,
+      constants.GAME_AREA_SIZE_L,
+      constants.GAME_AREA_SIZE_S
+    );
     graphics.alpha = 0.2;
-    graphics.pivot.set(window.innerWidth / 2, window.innerHeight / 2);
-    graphics.interactive = true;
     this.view.addChild(graphics);
   }
 

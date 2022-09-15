@@ -2,6 +2,7 @@ import { Graphics, Text } from "pixi.js";
 import { ModalWindow } from "./ModalWindow";
 import { EventType } from "../../Event";
 import { Button } from "../Button";
+import { constants } from "../../constants";
 
 export class LosingWindow extends ModalWindow {
   button: Button;
@@ -15,6 +16,10 @@ export class LosingWindow extends ModalWindow {
     windowBackground.lineStyle(2, 0x000000);
     windowBackground.drawCircle(0, 0, 200);
     this.content.addChild(windowBackground);
+    this.content.position.set(
+      constants.GAME_AREA_SIZE_L / 2,
+      constants.GAME_AREA_SIZE_S / 2
+    );
 
     const title = new Text("Failed", {
       fontFamily: "Arial",

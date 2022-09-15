@@ -10,6 +10,7 @@ export class TimerSlider extends Container {
     background.beginFill(0x000000);
     background.drawRect(0, 0, 500, 20);
     background.endFill();
+    this.pivot.set(background.width / 2, background.height / 2);
     this.addChild(background);
   }
 

@@ -1,36 +1,102 @@
 import * as PIXI from "pixi.js";
-import TWEEN from "@tweenjs/tween.js";
 import { Loader } from "./Loader";
 import { GameController } from "./controllers/GameController";
 import { GameView } from "./views/GameView";
 import { Game } from "./models/Game";
+import { constants } from "./constants";
 
 export class App {
   protected _gameModel: Game | null = null;
   protected _gameController: GameController | null = null;
   protected _gameView: GameView | null = null;
-  protected app: PIXI.Application = new PIXI.Application({ resizeTo: window });
 
+  private render: PIXI.AbstractRenderer;
+
+  constructor() {
+    this.render = PIXI.autoDetectRenderer({
+      width: constants.GAME_AREA_SIZE_L,
+      height: constants.GAME_AREA_SIZE_S,
+      backgroundColor: 0xff0000,
+      resolution: window.devicePixelRatio,
+    });
+  }
+
+  //** Prepare game for start.
   run() {
-    // Add to Dom
-    document.body.appendChild(this.app.view);
+    // Add to Dom.
+    document.body.appendChild(this.render.view);
 
     // load sprites
-    const loader = new Loader(this.app.loader);
+    const loader = new Loader(PIXI.Loader.shared);
     loader.preload().then(() => this.start());
   }
 
+  //** Start game.
   start() {
-    // create game MVC.
+    // Create game MVC.
     this._gameModel = new Game();
     this._gameView = new GameView(this._gameModel);
     this._gameController = new GameController(this._gameModel, this._gameView);
 
-    // add gameView to PIXI stage.
-    this.app.stage.addChild(this._gameView.container);
+    // Size and resize game.
+    window.addEventListener("resize", () => this.resize());
+    const { h, w } = this.check_device();
+    this.render.view.style.display = "block";
+    this.render.view.style.width = w + "px";
+    this.render.view.style.height = h + "px";
+    this.resize();
+    this.resize();
 
-    this.app.ticker.add(() => {
-      TWEEN.update();
+    // Render game.
+    this.render.render(this._gameView.container);
+    const ticker = PIXI.Ticker.shared;
+    ticker.add(() => {
+      if (this._gameView) {
+        this.render.render(this._gameView.container);
+      }
     });
+  }
+
+  // Get screen size.
+  check_device() {
+    let h = constants.GAME_AREA_SIZE_L;
+    let w = constants.GAME_AREA_SIZE_S;
+    let textures: string = "";
+    if (PIXI.utils.isMobile.phone) {
+      if (window.innerHeight > window.innerWidth) {
+        h = constants.GAME_AREA_SIZE_L;
+        w = constants.GAME_AREA_SIZE_S;
+        textures = "basegame_vertical";
+      } else {
+        h = constants.GAME_AREA_SIZE_S;
+        w = constants.GAME_AREA_SIZE_L;
+        textures = "basegame";
+      }
+    }
+    if (!PIXI.utils.isMobile.phone && !PIXI.utils.isMobile.tablet) {
+      h = constants.GAME_AREA_SIZE_S;
+      w = constants.GAME_AREA_SIZE_L;
+      textures = "tablet_horizontal";
+    }
+    return {
+      h,
+      w,
+      textures,
+    };
+  }
+
+  // Resize game.
+  resize() {
+    const ratio = constants.GAME_AREA_SIZE_L / constants.GAME_AREA_SIZE_S;
+    let w, h;
+    if (window.innerWidth / window.innerHeight >= ratio) {
+      w = window.innerHeight * ratio;
+      h = window.innerHeight;
+    } else {
+      w = window.innerWidth;
+      h = window.innerWidth / ratio;
+    }
+    this.render.view.style.width = w + "px";
+    this.render.view.style.height = h + "px";
   }
 }

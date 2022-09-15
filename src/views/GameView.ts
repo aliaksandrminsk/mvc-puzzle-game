@@ -25,8 +25,6 @@ export class GameView extends utils.EventEmitter {
 
     //** Background
     this.bg = new Sprite(Texture.from("bg"));
-    this.bg.width = window.innerWidth;
-    this.bg.height = window.innerHeight;
     this.container.addChild(this.bg);
 
     //** Puzzle grid.
@@ -43,13 +41,12 @@ export class GameView extends utils.EventEmitter {
     });
     this.container.addChild(title);
     title.pivot.set(title.width / 2, title.height / 2);
-    title.position.set(window.innerWidth / 2, 80);
+    title.position.set(this.bg.width / 2, 200);
 
     //** Slider
     this.slider = new TimerSlider();
     this.container.addChild(this.slider);
-    this.slider.pivot.set(this.slider.width / 2, this.slider.height / 2);
-    this.slider.position.set(window.innerWidth / 2, 800);
+    this.slider.position.set(this.bg.width / 2, this.bg.height / 2 + 370);
   }
 
   get gridView(): GridView {
@@ -60,8 +57,8 @@ export class GameView extends utils.EventEmitter {
   createGrid() {
     this.grid.createPuzzlePieces();
     this.grid.pivot.set(-75, 75);
-    this.grid.x = window.innerWidth / 2 - this.grid.width / 2;
-    this.grid.y = window.innerHeight / 2 - this.grid.height / 2;
+    this.grid.x = this.container.width / 2 - this.grid.width / 2;
+    this.grid.y = this.container.height / 2 - this.grid.height / 2;
   }
 
   //** Clear game area.
@@ -73,27 +70,18 @@ export class GameView extends utils.EventEmitter {
   showInstructionWindow() {
     this.modalWindow = new InstructionWindow();
     this.container.addChild(this.modalWindow.view);
-
-    this.modalWindow.view.x = window.innerWidth / 2;
-    this.modalWindow.view.y = window.innerHeight / 2;
   }
 
   //** Show losing modal window.
   showLosingWindow() {
     this.modalWindow = new LosingWindow();
     this.container.addChild(this.modalWindow.view);
-
-    this.modalWindow.view.x = window.innerWidth / 2;
-    this.modalWindow.view.y = window.innerHeight / 2;
   }
 
   //** Show win modal window.
   showWinWindow() {
     this.modalWindow = new WinWindow();
     this.container.addChild(this.modalWindow.view);
-
-    this.modalWindow.view.x = window.innerWidth / 2;
-    this.modalWindow.view.y = window.innerHeight / 2;
   }
 
   //** Hide modal window.
