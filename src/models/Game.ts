@@ -4,8 +4,9 @@ export class Game {
   protected _grid: Grid;
   public backgroundTexture: string = "";
 
-  constructor() {
+  constructor(backgroundTexture: string = "") {
     this._grid = new Grid();
+    this.backgroundTexture = backgroundTexture;
   }
 
   public get grid(): Grid {

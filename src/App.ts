@@ -36,8 +36,7 @@ export class App {
     const { h, w, backgroundTexture = "" } = this.check_device();
 
     // Create game MVC.
-    this._gameModel = new Game();
-    this._gameModel.backgroundTexture = backgroundTexture;
+    this._gameModel = new Game(backgroundTexture);
     this._gameView = new GameView(this._gameModel);
     this._gameController = new GameController(this._gameModel, this._gameView);
 

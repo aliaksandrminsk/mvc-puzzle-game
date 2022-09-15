@@ -5,8 +5,8 @@ import { GridController } from "./GridController";
 import { constants } from "../constants";
 
 export class GameController {
-  private _gameModel: Game;
-  private _gameView: GameView;
+  private readonly _gameModel: Game;
+  private readonly _gameView: GameView;
   private readonly _gridController: GridController;
 
   private gameTimer: ReturnType<typeof setTimeout> | null = null;
@@ -17,8 +17,8 @@ export class GameController {
 
     // Grid controller, performs manipulation on the GridModel and handles the GridView.
     this._gridController = new GridController(
-      this._gameModel.grid,
-      this._gameView.gridView
+      this.gameModel.grid,
+      this.gameView.gridView
     );
 
     //** Add listeners to the GameController
@@ -31,27 +31,35 @@ export class GameController {
     this.initGame();
   }
 
+  private get gameView(): GameView {
+    return this._gameView;
+  }
+
+  private get gameModel(): Game {
+    return this._gameModel;
+  }
+
   private get gridController(): GridController {
     return this._gridController;
   }
 
   //** Initialization of game.
   public initGame() {
-    this._gameView.createGrid();
-    this._gameView.hideWindow();
-    this._gameView.showInstructionWindow();
-    this._gameView.slider.reset();
+    this.gameView.createGrid();
+    this.gameView.hideWindow();
+    this.gameView.showInstructionWindow();
+    this.gameView.slider.reset();
   }
 
   //** Start to play a game.
   public startGame() {
-    this._gameView.removeGrid();
-    this._gameView.createGrid();
-    this._gameView.hideWindow();
+    this.gameView.removeGrid();
+    this.gameView.createGrid();
+    this.gameView.hideWindow();
     this.gridController.enableInteractivity();
 
     this.gameTimer = setTimeout(() => {
-      if (this._gameView.gridView.isWinCombination()) {
+      if (this.gameView.gridView.isWinCombination()) {
         const event = new Event(EventType.WIN_GAME);
         window.dispatchEvent(event);
       } else {
@@ -64,18 +72,18 @@ export class GameController {
 
   //** Handler of losing a game.
   public loseGame() {
-    this._gameView.slider.stop();
+    this.gameView.slider.stop();
     this.gridController.disableInteractivity();
-    this._gameView.hideWindow();
-    this._gameView.showLosingWindow();
+    this.gameView.hideWindow();
+    this.gameView.showLosingWindow();
   }
 
   //** Handler of winning a game.
   public winGame() {
-    this._gameView.slider.stop();
+    this.gameView.slider.stop();
     if (this.gameTimer) clearTimeout(this.gameTimer);
     this.gridController.disableInteractivity();
-    this._gameView.hideWindow();
-    this._gameView.showWinWindow();
+    this.gameView.hideWindow();
+    this.gameView.showWinWindow();
   }
 }
