@@ -10,7 +10,7 @@ export class Button extends Container {
     super();
 
     //** Background.
-    const backgroundTexture = Texture.from("png_button");
+    const backgroundTexture = Texture.from("button");
     this.background = new Sprite(backgroundTexture);
     this.background.pivot.set(
       this.background.width / 2,

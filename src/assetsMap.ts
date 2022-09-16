@@ -6,6 +6,6 @@ export const assetsMap = {
     { name: "puzzle2", url: "./n2.png" },
     { name: "puzzle3", url: "./n3.png" },
     { name: "puzzle4", url: "./n4.png" },
-    { name: "png_button", url: "./png_button.png" },
+    { name: "button", url: "./button.png" },
   ],
 };

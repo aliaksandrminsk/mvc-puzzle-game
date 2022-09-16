@@ -12,6 +12,7 @@ export class Grid extends utils.EventEmitter {
     this.createPuzzlePieces();
   }
 
+  //** Create puzzle pieces.
   public createPuzzlePieces() {
     const positions = [...puzzleGridPositions];
     const types = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];
@@ -37,11 +38,13 @@ export class Grid extends utils.EventEmitter {
     this.pieces = pieces;
   }
 
+  //** Clear puzzle pieces.
   public clear() {
     this.emit(EventType.CLEAR_GRID);
     this._pieces = [];
   }
 
+  //** Setter/Getter pieces.
   public set pieces(arr: Array<PuzzlePiece>) {
     this._pieces = arr;
     this.emit(EventType.GRID_UPDATED);
