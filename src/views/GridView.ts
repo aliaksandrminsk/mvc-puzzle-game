@@ -10,9 +10,11 @@ export class GridView extends Container {
     super();
     this._grid = grid;
     this.sortableChildren = true;
+    this.pivot.set(-75, 75);
 
     //** Listener.
-    this.grid.on(EventType.CLEAR_GRID, () => this.removePuzzlePieces());
+    this.grid.on(EventType.CLEAR_GRID, () => this.clear());
+    this.grid.on(EventType.GRID_UPDATED, () => this.create());
   }
 
   get grid(): Grid {
@@ -20,14 +22,14 @@ export class GridView extends Container {
   }
 
   //** Create puzzle elements.
-  createPuzzlePieces() {
+  create() {
     for (const piece of this.grid.pieces) {
       this.addChild(piece.sprite);
     }
   }
 
   //** Remove puzzle elements.
-  removePuzzlePieces() {
+  clear() {
     for (const piece of this.grid.pieces) {
       this.removeChild(piece.sprite);
     }

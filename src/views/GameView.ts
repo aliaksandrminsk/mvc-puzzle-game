@@ -54,7 +54,6 @@ export class GameView extends utils.EventEmitter {
 
     //** Listener.
     this.game.on(EventType.CHANGE_GAME_STATE, () => this.setGameState());
-    this.game.grid.on(EventType.GRID_UPDATED, () => this.createGrid());
 
     //** Initialization of game.
     this.setGameState();
@@ -70,8 +69,10 @@ export class GameView extends utils.EventEmitter {
 
   setGameState() {
     if (this.game.state === "init") {
-      console.log("view");
-      this.createGrid();
+      this.gridView.create();
+      this.gridView.x = this.container.width / 2 - this.gridView.width / 2;
+      this.gridView.y = this.container.height / 2 - this.gridView.height / 2;
+
       const modalWindow = this.showInstructionWindow();
       modalWindow.once("click", () => {
         this.emit(EventType.START_GAME);
@@ -107,14 +108,6 @@ export class GameView extends utils.EventEmitter {
       this.hideWindow();
       this.showWinWindow();
     }
-  }
-
-  //** Create game area.
-  createGrid() {
-    this.gridView.createPuzzlePieces();
-    this.gridView.pivot.set(-75, 75);
-    this.gridView.x = this.container.width / 2 - this.gridView.width / 2;
-    this.gridView.y = this.container.height / 2 - this.gridView.height / 2;
   }
 
   //** Show instruction modal window.
