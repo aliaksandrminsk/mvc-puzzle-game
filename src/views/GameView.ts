@@ -12,7 +12,7 @@ import { EventType } from "../Event";
 import { constants } from "../constants";
 
 export class GameView extends utils.EventEmitter {
-  private readonly grid: GridView;
+  private readonly _gridView: GridView;
   private readonly _game: Game;
 
   public container: Container;
@@ -32,8 +32,8 @@ export class GameView extends utils.EventEmitter {
     this.container.addChild(this.bg);
 
     //** Puzzle grid.
-    this.grid = new GridView(this._game.grid);
-    this.container.addChild(this.grid);
+    this._gridView = new GridView(this._game.grid);
+    this.container.addChild(this.gridView);
 
     //** Title
     const title = new Text("Puzzle Game", {
@@ -61,7 +61,7 @@ export class GameView extends utils.EventEmitter {
   }
 
   get gridView(): GridView {
-    return this.grid;
+    return this._gridView;
   }
 
   get game(): Game {
@@ -70,12 +70,12 @@ export class GameView extends utils.EventEmitter {
 
   setGameState() {
     if (this.game.state === "init") {
-      this.hideWindow();
+      console.log("view");
+      this.createGrid();
       const modalWindow = this.showInstructionWindow();
       modalWindow.once("click", () => {
         this.emit(EventType.START_GAME);
       });
-      this.slider.reset();
     } else if (this.game.state === "start") {
       this.hideWindow();
       this.gridView.enableInteractivity();
@@ -111,10 +111,10 @@ export class GameView extends utils.EventEmitter {
 
   //** Create game area.
   createGrid() {
-    this.grid.createPuzzlePieces();
-    this.grid.pivot.set(-75, 75);
-    this.grid.x = this.container.width / 2 - this.grid.width / 2;
-    this.grid.y = this.container.height / 2 - this.grid.height / 2;
+    this.gridView.createPuzzlePieces();
+    this.gridView.pivot.set(-75, 75);
+    this.gridView.x = this.container.width / 2 - this.gridView.width / 2;
+    this.gridView.y = this.container.height / 2 - this.gridView.height / 2;
   }
 
   //** Show instruction modal window.

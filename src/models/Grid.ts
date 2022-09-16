@@ -14,6 +14,7 @@ export class Grid extends utils.EventEmitter {
 
   //** Create puzzle pieces.
   public createPuzzlePieces() {
+    console.log("model createPuzzlePieces");
     const positions = [...puzzleGridPositions];
     const types = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];
     const pieces = [];
