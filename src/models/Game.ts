@@ -6,7 +6,7 @@ export class Game extends utils.EventEmitter {
   public backgroundTexture: string = "";
 
   protected _grid: Grid;
-  protected _state: string = "";
+  protected _state: string = "init";
 
   constructor(backgroundTexture: string = "") {
     super();

@@ -22,9 +22,6 @@ export class GameController {
     this.gameView.on(EventType.START_GAME, () => this.startGame());
     this.gameView.on(EventType.WIN_GAME, () => this.winGame());
     this.gameView.on(EventType.LOSE_GAME, () => this.loseGame());
-
-    //** Initialization of game.
-    this.initGame();
   }
 
   private get gameView(): GameView {
@@ -33,12 +30,6 @@ export class GameController {
 
   private get gameModel(): Game {
     return this._gameModel;
-  }
-
-  //** Initialization of game.
-  public initGame() {
-    this.gameModel.grid.createPuzzlePieces();
-    this.gameModel.state = "init";
   }
 
   //** Set state when user play a game.

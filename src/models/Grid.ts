@@ -7,6 +7,11 @@ import { Point } from "pixi.js";
 export class Grid extends utils.EventEmitter {
   public _pieces: Array<PuzzlePiece> = [];
 
+  constructor() {
+    super();
+    this.createPuzzlePieces();
+  }
+
   public createPuzzlePieces() {
     const positions = [...puzzleGridPositions];
     const types = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];

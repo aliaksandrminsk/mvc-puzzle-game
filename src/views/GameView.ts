@@ -55,6 +55,9 @@ export class GameView extends utils.EventEmitter {
     //** Listener.
     this.game.on(EventType.CHANGE_GAME_STATE, () => this.setGameState());
     this.game.grid.on(EventType.GRID_UPDATED, () => this.createGrid());
+
+    //** Initialization of game.
+    this.setGameState();
   }
 
   get gridView(): GridView {
