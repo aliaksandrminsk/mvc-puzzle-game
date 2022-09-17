@@ -6,7 +6,7 @@ To run the package.
 
 ```
 git clone https://github.com/aliaksandrminsk/mvc-puzzle-game
-cd react-mobx-task
+cd mvc-puzzle-game
 npm install
 npm run start
 ```
