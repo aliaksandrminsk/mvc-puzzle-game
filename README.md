@@ -1,6 +1,6 @@
 # Puzzle game
 
-This project is puzzle game.
+This project is puzzle game. Technologies: [PixiJS](https://pixijs.com/), [TypeScript](https://www.typescriptlang.org/) and [Webpack](https://webpack.js.org/)
 
 To run the package.
 
