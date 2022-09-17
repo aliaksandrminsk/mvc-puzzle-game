@@ -1,6 +1,6 @@
 import { Grid } from "./Grid";
 import * as utils from "@pixi/utils";
-import { EventType } from "../Event";
+import { GameEvent } from "../events/GameEvent";
 
 export class Game extends utils.EventEmitter {
   public backgroundTexture: string = "";
@@ -20,7 +20,7 @@ export class Game extends utils.EventEmitter {
 
   public set state(value: string) {
     this._state = value;
-    this.emit(EventType.CHANGE_GAME_STATE);
+    this.emit(GameEvent.CHANGE_GAME_STATE);
   }
 
   public get state(): string {

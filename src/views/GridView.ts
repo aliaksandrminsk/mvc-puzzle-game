@@ -1,7 +1,7 @@
 import { PuzzlePiece } from "./PuzzlePiece";
 import { Container } from "pixi.js";
 import { Grid } from "../models/Grid";
-import { EventType } from "../Event";
+import { GameEvent } from "../events/GameEvent";
 
 export class GridView extends Container {
   private readonly _grid: Grid;
@@ -13,8 +13,8 @@ export class GridView extends Container {
     this.pivot.set(-75, 75);
 
     //** Listener.
-    this.grid.on(EventType.CLEAR_GRID, () => this.clear());
-    this.grid.on(EventType.GRID_UPDATED, () => this.create());
+    this.grid.on(GameEvent.CLEAR_GRID, () => this.clear());
+    this.grid.on(GameEvent.GRID_UPDATED, () => this.create());
   }
 
   get grid(): Grid {

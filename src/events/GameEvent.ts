@@ -1,7 +1,5 @@
-export const EventType = {
-  START_GAME: "START_GAME",
-  LOSE_GAME: "LOSE_GAME",
-  WIN_GAME: "WIN_GAME",
+//** Modal event.
+export const GameEvent = {
   CHANGE_GAME_STATE: "CHANGE_GAME_STATE",
   GRID_UPDATED: "GRID_UPDATED",
   CLEAR_GRID: "CLEAR_GRID",

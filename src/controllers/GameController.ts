@@ -1,7 +1,7 @@
 import { Game } from "../models/Game";
 import { GameView } from "../views/GameView";
-import { EventType } from "../Event";
 import { GridController } from "./GridController";
+import { GameViewEvent } from "../events/GameViewEvent";
 
 export class GameController {
   private readonly _gameModel: Game;
@@ -19,9 +19,9 @@ export class GameController {
     );
 
     //** Add listeners to the GameController.
-    this.gameView.on(EventType.START_GAME, () => this.startGame());
-    this.gameView.on(EventType.WIN_GAME, () => this.winGame());
-    this.gameView.on(EventType.LOSE_GAME, () => this.loseGame());
+    this.gameView.on(GameViewEvent.START_GAME, () => this.startGame());
+    this.gameView.on(GameViewEvent.WIN_GAME, () => this.winGame());
+    this.gameView.on(GameViewEvent.LOSE_GAME, () => this.loseGame());
   }
 
   private get gameView(): GameView {

@@ -8,8 +8,9 @@ import { LosingWindow } from "./windows/LosingWindow";
 import { WinWindow } from "./windows/WinWindow";
 import { GridView } from "./GridView";
 import { TimerSlider } from "./TimerSlider";
-import { EventType } from "../Event";
 import { constants } from "../constants";
+import { GameViewEvent } from "../events/GameViewEvent";
+import { GameEvent } from "../events/GameEvent";
 
 export class GameView extends utils.EventEmitter {
   private readonly _gridView: GridView;
@@ -53,7 +54,7 @@ export class GameView extends utils.EventEmitter {
     this.slider.position.set(this.bg.width / 2, this.bg.height / 2 + 370);
 
     //** Listener.
-    this.game.on(EventType.CHANGE_GAME_STATE, () => this.setGameState());
+    this.game.on(GameEvent.CHANGE_GAME_STATE, () => this.setGameState());
 
     //** Initialization of game.
     this.setGameState();
@@ -75,22 +76,22 @@ export class GameView extends utils.EventEmitter {
 
       const modalWindow = this.showInstructionWindow();
       modalWindow.once("click", () => {
-        this.emit(EventType.START_GAME);
+        this.emit(GameViewEvent.START_GAME);
       });
     } else if (this.game.state === "start") {
       this.hideWindow();
       this.gridView.enableInteractivity();
       this.gridView.on("pieceSwap", () => {
         if (this.game.grid.isWinCombination()) {
-          this.emit(EventType.WIN_GAME);
+          this.emit(GameViewEvent.WIN_GAME);
         }
       });
       this.slider.start(constants.GAME_DURATION);
       this.gameTimer = setTimeout(() => {
         if (this.game.grid.isWinCombination()) {
-          this.emit(EventType.WIN_GAME);
+          this.emit(GameViewEvent.WIN_GAME);
         } else {
-          this.emit(EventType.LOSE_GAME);
+          this.emit(GameViewEvent.LOSE_GAME);
         }
       }, constants.GAME_DURATION);
     } else if (this.game.state === "lose") {
@@ -99,7 +100,7 @@ export class GameView extends utils.EventEmitter {
       this.hideWindow();
       const modalWindow = this.showLosingWindow();
       modalWindow.once("click", () => {
-        this.emit(EventType.START_GAME);
+        this.emit(GameViewEvent.START_GAME);
       });
     } else if (this.game.state === "win") {
       this.slider.stop();
