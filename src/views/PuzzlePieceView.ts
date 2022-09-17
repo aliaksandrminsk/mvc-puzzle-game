@@ -2,26 +2,23 @@ import * as PIXI from "pixi.js";
 import TWEEN from "@tweenjs/tween.js";
 import { Point } from "pixi.js";
 import { GridViewViewEvent } from "../events/GridViewEvent";
+import { PuzzlePiece } from "../models/PuzzlePiece";
 
-export class PuzzlePiece extends PIXI.utils.EventEmitter {
+export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   sprite: PIXI.Sprite;
-  field: Point;
   touchPosition: Point = new Point(0, 0);
   dragging: boolean = false;
-  type: number;
-  area: number;
+  pieceData: PuzzlePiece;
 
-  constructor(id: number, type: number, field: Point, area: number) {
+  constructor(type: number, field: Point, area: number) {
     super();
-    this.type = type;
+    this.pieceData = new PuzzlePiece(type, field, area);
     this.sprite = PIXI.Sprite.from(`puzzle${type}`);
     this.sprite.x = field.x;
     this.sprite.y = field.y;
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.scale.set(0.5);
     this.sprite.interactive = true;
-    this.field = field;
-    this.area = area;
   }
 
   setEnabled(value: boolean) {
@@ -62,13 +59,13 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     const offsetY = currentPosition.y - this.touchPosition.y;
 
     // 3. apply the resulting offset
-    this.sprite.x = this.field.x + offsetX;
-    this.sprite.y = this.field.y + offsetY;
+    this.sprite.x = this.pieceData.field.x + offsetX;
+    this.sprite.y = this.pieceData.field.y + offsetY;
   }
 
   reset() {
     const tween = new TWEEN.Tween(this.sprite);
-    tween.to({ x: this.field.x, y: this.field.y }, 300);
+    tween.to({ x: this.pieceData.field.x, y: this.pieceData.field.y }, 300);
     tween.onStart(() => {
       this.sprite.zIndex = 1;
     });
@@ -77,8 +74,8 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
     });
     tween.easing(TWEEN.Easing.Back.Out);
     tween.start();
-    this.sprite.x = this.field.x;
-    this.sprite.y = this.field.y;
+    this.sprite.x = this.pieceData.field.x;
+    this.sprite.y = this.pieceData.field.y;
   }
 
   onTouchEnd() {
@@ -104,8 +101,8 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
   }
 
   setPosition(field: Point, area: number) {
-    this.field = field;
-    this.area = area;
+    this.pieceData.field = field;
+    this.pieceData.area = area;
     this.reset();
   }
 }

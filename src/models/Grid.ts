@@ -1,11 +1,11 @@
-import { PuzzlePiece } from "../views/PuzzlePiece";
+import { PuzzlePieceView } from "../views/PuzzlePieceView";
 import * as utils from "@pixi/utils";
 import { puzzleGridPositions } from "../config";
 import { Point } from "pixi.js";
 import { GameEvent } from "../events/GameEvent";
 
 export class Grid extends utils.EventEmitter {
-  public _pieces: Array<PuzzlePiece> = [];
+  public _pieces: Array<PuzzlePieceView> = [];
 
   constructor() {
     super();
@@ -27,8 +27,7 @@ export class Grid extends utils.EventEmitter {
       const typeValue = types[typeId];
       types.splice(typeId, 1);
 
-      const piece = new PuzzlePiece(
-        positionData.id,
+      const piece = new PuzzlePieceView(
         typeValue,
         new Point(positionData.x, positionData.y),
         positionData.area
@@ -45,7 +44,7 @@ export class Grid extends utils.EventEmitter {
   }
 
   //** Setter/Getter pieces.
-  public set pieces(arr: Array<PuzzlePiece>) {
+  public set pieces(arr: Array<PuzzlePieceView>) {
     this._pieces = arr;
     this.emit(GameEvent.GRID_UPDATED);
   }
@@ -60,8 +59,8 @@ export class Grid extends utils.EventEmitter {
       const types = [];
 
       for (const piece of this.pieces) {
-        if (piece.area === areaId) {
-          types.push(piece.type);
+        if (piece.pieceData.area === areaId) {
+          types.push(piece.pieceData.type);
         }
       }
       if (types.length !== 4) {

@@ -7,7 +7,7 @@ import { ModalWindow } from "./windows/ModalWindow";
 import { LosingWindow } from "./windows/LosingWindow";
 import { WinWindow } from "./windows/WinWindow";
 import { GridView } from "./GridView";
-import { TimerSlider } from "./TimerSlider";
+import { TimerSlider } from "./components/TimerSlider";
 import { constants } from "../constants";
 import { GameViewEvent } from "../events/GameViewEvent";
 import { GameEvent } from "../events/GameEvent";

@@ -1,4 +1,4 @@
-import { PuzzlePiece } from "./PuzzlePiece";
+import { PuzzlePieceView } from "./PuzzlePieceView";
 import { Container } from "pixi.js";
 import { Grid } from "../models/Grid";
 import { GameEvent } from "../events/GameEvent";
@@ -55,7 +55,7 @@ export class GridView extends utils.EventEmitter {
   }
 
   //** Swap puzzle elements.
-  onPieceDragEnd(piece: PuzzlePiece) {
+  onPieceDragEnd(piece: PuzzlePieceView) {
     const pieceToReplace = this._grid.pieces.find(
       (item) =>
         item !== piece &&
@@ -70,9 +70,9 @@ export class GridView extends utils.EventEmitter {
     );
 
     if (pieceToReplace) {
-      const replaceField = pieceToReplace.field;
-      const replaceArea = pieceToReplace.area;
-      pieceToReplace.setPosition(piece.field, piece.area);
+      const replaceField = pieceToReplace.pieceData.field;
+      const replaceArea = pieceToReplace.pieceData.area;
+      pieceToReplace.setPosition(piece.pieceData.field, piece.pieceData.area);
       piece.setPosition(replaceField, replaceArea);
       this.emit(GameViewEvent.CHANGE_PIECE_POS);
     } else {
