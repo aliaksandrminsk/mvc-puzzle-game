@@ -1,22 +1,14 @@
 import { Game } from "../models/Game";
 import { GameView } from "../views/GameView";
-import { GridController } from "./GridController";
 import { GameViewEvent } from "../events/GameViewEvent";
 
 export class GameController {
   private readonly _gameModel: Game;
   private readonly _gameView: GameView;
-  private readonly _gridController: GridController;
 
   constructor(game: Game, gameView: GameView) {
     this._gameModel = game;
     this._gameView = gameView;
-
-    // Grid controller, performs manipulation on the GridModel and handles the GridView.
-    this._gridController = new GridController(
-      this.gameModel.grid,
-      this.gameView.gridView
-    );
 
     //** Add listeners to the GameController.
     this.gameView.on(GameViewEvent.START_BUTTON_CLICKED, () =>

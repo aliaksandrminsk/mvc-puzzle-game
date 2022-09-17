@@ -1,23 +1,15 @@
-https://alexatnet.com/model-view-controller-mvc-in-javascript_ru/
+Tasks: 
+1) .eslintrc.js
+2) webpack.config.js
+4) add sound
+5) test tasks
+6) language window in ereact
+7) localization in excel.
+8) background depends on screen size.
+9) clear listeners.
+10) name for event
 
-
-1) setInterval - па іншаму, праз ticker абнаўляць прелоудер
-2) mvc
-
-4) .eslintrc.js
-5) webpack.config.js
-6) канфиг у мадэль або асобны файл
-7) add sound
-8) test tasks
-9) language window in ereact
-10) localization in excel.
-11) background depends on screen size.
-12) clear listeners.
-13) name for event
-
--------------------
-1)праверыць на мабіле.
-2) mvc 
+Links: 
 a)  https://www.youtube.com/watch?v=eXl-jSSJs-Y  https://www.youtube.com/watch?v=9shKSKcSGDo
 b) https://alexatnet.com/model-view-controller-mvc-in-javascript_ru/
 c) e:\WORK2021\Examples for my site\PixiJS\from internet\hidden-blocks-master\
