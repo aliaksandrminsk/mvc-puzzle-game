@@ -2,6 +2,7 @@ import { PuzzlePiece } from "./PuzzlePiece";
 import { Container } from "pixi.js";
 import { Grid } from "../models/Grid";
 import { GameEvent } from "../events/GameEvent";
+import { GameViewEvent } from "../events/GameViewEvent";
 
 export class GridView extends Container {
   private readonly _grid: Grid;
@@ -69,7 +70,7 @@ export class GridView extends Container {
       const replaceArea = pieceToReplace.area;
       pieceToReplace.setPosition(piece.field, piece.area);
       piece.setPosition(replaceField, replaceArea);
-      this.emit("pieceSwap");
+      this.emit(GameViewEvent.CHANGE_PIECE_POS);
     } else {
       piece.reset();
     }

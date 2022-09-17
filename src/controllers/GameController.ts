@@ -19,9 +19,18 @@ export class GameController {
     );
 
     //** Add listeners to the GameController.
-    this.gameView.on(GameViewEvent.START_GAME, () => this.startGame());
-    this.gameView.on(GameViewEvent.WIN_GAME, () => this.winGame());
-    this.gameView.on(GameViewEvent.LOSE_GAME, () => this.loseGame());
+    this.gameView.on(GameViewEvent.START_BUTTON_CLICKED, () =>
+      this.startGame()
+    );
+    this.gameView.on(GameViewEvent.AGAIN_BUTTON_CLICKED, () =>
+      this.startGame()
+    );
+    this.gameView.on(GameViewEvent.GAME_TIME_FINISHED, () => this.loseGame());
+    this.gameView.gridView.on(GameViewEvent.CHANGE_PIECE_POS, () => {
+      if (this.gameModel.grid.isWinCombination()) {
+        this.winGame();
+      }
+    });
   }
 
   private get gameView(): GameView {

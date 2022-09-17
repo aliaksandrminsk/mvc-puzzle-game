@@ -11,6 +11,7 @@ import { TimerSlider } from "./TimerSlider";
 import { constants } from "../constants";
 import { GameViewEvent } from "../events/GameViewEvent";
 import { GameEvent } from "../events/GameEvent";
+import { ModalViewEvent } from "../events/ModalViewEvent";
 
 export class GameView extends utils.EventEmitter {
   private readonly _gridView: GridView;
@@ -53,11 +54,11 @@ export class GameView extends utils.EventEmitter {
     this.container.addChild(this.slider);
     this.slider.position.set(this.bg.width / 2, this.bg.height / 2 + 370);
 
+    //** Initialization of game.
+    this.init();
+
     //** Listener.
     this.game.on(GameEvent.CHANGE_GAME_STATE, () => this.setGameState());
-
-    //** Initialization of game.
-    this.setGameState();
   }
 
   get gridView(): GridView {
@@ -68,45 +69,37 @@ export class GameView extends utils.EventEmitter {
     return this._game;
   }
 
-  setGameState() {
-    if (this.game.state === "init") {
-      this.gridView.create();
-      this.gridView.x = this.container.width / 2 - this.gridView.width / 2;
-      this.gridView.y = this.container.height / 2 - this.gridView.height / 2;
+  init() {
+    this.gridView.create();
+    this.gridView.x = this.container.width / 2 - this.gridView.width / 2;
+    this.gridView.y = this.container.height / 2 - this.gridView.height / 2;
 
-      const modalWindow = this.showInstructionWindow();
-      modalWindow.once("click", () => {
-        this.emit(GameViewEvent.START_GAME);
-      });
-    } else if (this.game.state === "start") {
-      this.hideWindow();
+    const modalWindow = this.showInstructionWindow();
+    modalWindow.once(ModalViewEvent.BUTTON_CLICKED, () => {
+      this.emit(GameViewEvent.START_BUTTON_CLICKED);
+    });
+  }
+
+  setGameState() {
+    this.hideWindow();
+
+    if (this.game.state === "start") {
       this.gridView.enableInteractivity();
-      this.gridView.on("pieceSwap", () => {
-        if (this.game.grid.isWinCombination()) {
-          this.emit(GameViewEvent.WIN_GAME);
-        }
-      });
       this.slider.start(constants.GAME_DURATION);
       this.gameTimer = setTimeout(() => {
-        if (this.game.grid.isWinCombination()) {
-          this.emit(GameViewEvent.WIN_GAME);
-        } else {
-          this.emit(GameViewEvent.LOSE_GAME);
-        }
+        this.emit(GameViewEvent.GAME_TIME_FINISHED);
       }, constants.GAME_DURATION);
     } else if (this.game.state === "lose") {
       this.slider.stop();
       this.gridView.disableInteractivity();
-      this.hideWindow();
       const modalWindow = this.showLosingWindow();
-      modalWindow.once("click", () => {
-        this.emit(GameViewEvent.START_GAME);
+      modalWindow.once(ModalViewEvent.BUTTON_CLICKED, () => {
+        this.emit(GameViewEvent.AGAIN_BUTTON_CLICKED);
       });
     } else if (this.game.state === "win") {
       this.slider.stop();
       if (this.gameTimer) clearTimeout(this.gameTimer);
       this.gridView.disableInteractivity();
-      this.hideWindow();
       this.showWinWindow();
     }
   }
