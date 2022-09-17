@@ -60,10 +60,8 @@ export class App {
 
   // Get screen size.
   check_device() {
-    let h = constants.GAME_AREA_SIZE_L;
-    let w = constants.GAME_AREA_SIZE_S;
-    let backgroundTexture;
-    if (PIXI.utils.isMobile.phone) {
+    let h, w, backgroundTexture;
+    if (PIXI.utils.isMobile.any) {
       if (window.innerHeight > window.innerWidth) {
         h = constants.GAME_AREA_SIZE_L;
         w = constants.GAME_AREA_SIZE_S;
@@ -73,8 +71,7 @@ export class App {
         w = constants.GAME_AREA_SIZE_L;
         backgroundTexture = "bg";
       }
-    }
-    if (!PIXI.utils.isMobile.phone && !PIXI.utils.isMobile.tablet) {
+    } else {
       h = constants.GAME_AREA_SIZE_S;
       w = constants.GAME_AREA_SIZE_L;
       backgroundTexture = "bg";

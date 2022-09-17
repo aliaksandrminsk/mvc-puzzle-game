@@ -3,15 +3,18 @@ import { Container } from "pixi.js";
 import { Grid } from "../models/Grid";
 import { GameEvent } from "../events/GameEvent";
 import { GameViewEvent } from "../events/GameViewEvent";
+import * as utils from "@pixi/utils";
 
-export class GridView extends Container {
+export class GridView extends utils.EventEmitter {
   private readonly _grid: Grid;
+  public container: Container;
 
   constructor(grid: Grid) {
     super();
     this._grid = grid;
-    this.sortableChildren = true;
-    this.pivot.set(-75, 75);
+    this.container = new Container();
+    this.container.sortableChildren = true;
+    this.container.pivot.set(-75, 75);
 
     //** Listener.
     this.grid.on(GameEvent.CLEAR_GRID, () => this.clear());
@@ -25,14 +28,14 @@ export class GridView extends Container {
   //** Create puzzle elements.
   create() {
     for (const piece of this.grid.pieces) {
-      this.addChild(piece.sprite);
+      this.container.addChild(piece.sprite);
     }
   }
 
   //** Remove puzzle elements.
   clear() {
     for (const piece of this.grid.pieces) {
-      this.removeChild(piece.sprite);
+      this.container.removeChild(piece.sprite);
     }
   }
 

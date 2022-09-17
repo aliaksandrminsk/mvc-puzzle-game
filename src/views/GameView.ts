@@ -35,7 +35,7 @@ export class GameView extends utils.EventEmitter {
 
     //** Puzzle grid.
     this._gridView = new GridView(this._game.grid);
-    this.container.addChild(this.gridView);
+    this.container.addChild(this.gridView.container);
 
     //** Title
     const title = new Text("Puzzle Game", {
@@ -71,8 +71,10 @@ export class GameView extends utils.EventEmitter {
 
   init() {
     this.gridView.create();
-    this.gridView.x = this.container.width / 2 - this.gridView.width / 2;
-    this.gridView.y = this.container.height / 2 - this.gridView.height / 2;
+    this.gridView.container.x =
+      this.container.width / 2 - this.gridView.container.width / 2;
+    this.gridView.container.y =
+      this.container.height / 2 - this.gridView.container.height / 2;
 
     const modalWindow = this.showInstructionWindow();
     modalWindow.once(ModalWindowViewEvent.BUTTON_CLICKED, () => {
