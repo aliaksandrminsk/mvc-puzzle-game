@@ -4,6 +4,7 @@ import { Grid } from "../models/Grid";
 import { GameEvent } from "../events/GameEvent";
 import { GameViewEvent } from "../events/GameViewEvent";
 import * as utils from "@pixi/utils";
+import { GridViewViewEvent } from "../events/GridViewEvent";
 
 export class GridView extends utils.EventEmitter {
   private readonly _grid: Grid;
@@ -41,14 +42,14 @@ export class GridView extends utils.EventEmitter {
 
   public enableInteractivity() {
     for (const piece of this._grid.pieces) {
-      piece.on("dragend", () => this.onPieceDragEnd(piece));
+      piece.on(GridViewViewEvent.DRAG_END, () => this.onPieceDragEnd(piece));
       piece.setEnabled(true);
     }
   }
 
   public disableInteractivity() {
     for (const piece of this._grid.pieces) {
-      piece.removeAllListeners("dragend");
+      piece.removeAllListeners(GridViewViewEvent.DRAG_END);
       piece.setEnabled(false);
     }
   }

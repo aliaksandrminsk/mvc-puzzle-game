@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import TWEEN from "@tweenjs/tween.js";
 import { Point } from "pixi.js";
+import { GridViewViewEvent } from "../events/GridViewEvent";
 
 export class PuzzlePiece extends PIXI.utils.EventEmitter {
   sprite: PIXI.Sprite;
@@ -83,7 +84,7 @@ export class PuzzlePiece extends PIXI.utils.EventEmitter {
   onTouchEnd() {
     this.dragging = false;
     this.sprite.zIndex = 1;
-    this.emit("dragend");
+    this.emit(GridViewViewEvent.DRAG_END);
   }
 
   get left() {
