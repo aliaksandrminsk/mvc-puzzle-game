@@ -1,4 +1,4 @@
 //** Modal window event.
-export const ModalViewEvent = {
+export const ModalWindowViewEvent = {
   BUTTON_CLICKED: "BUTTON_CLICKED",
 };

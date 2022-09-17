@@ -11,7 +11,7 @@ import { TimerSlider } from "./TimerSlider";
 import { constants } from "../constants";
 import { GameViewEvent } from "../events/GameViewEvent";
 import { GameEvent } from "../events/GameEvent";
-import { ModalViewEvent } from "../events/ModalViewEvent";
+import { ModalWindowViewEvent } from "../events/ModalWindowViewEvent";
 
 export class GameView extends utils.EventEmitter {
   private readonly _gridView: GridView;
@@ -75,7 +75,7 @@ export class GameView extends utils.EventEmitter {
     this.gridView.y = this.container.height / 2 - this.gridView.height / 2;
 
     const modalWindow = this.showInstructionWindow();
-    modalWindow.once(ModalViewEvent.BUTTON_CLICKED, () => {
+    modalWindow.once(ModalWindowViewEvent.BUTTON_CLICKED, () => {
       this.emit(GameViewEvent.START_BUTTON_CLICKED);
     });
   }
@@ -93,7 +93,7 @@ export class GameView extends utils.EventEmitter {
       this.slider.stop();
       this.gridView.disableInteractivity();
       const modalWindow = this.showLosingWindow();
-      modalWindow.once(ModalViewEvent.BUTTON_CLICKED, () => {
+      modalWindow.once(ModalWindowViewEvent.BUTTON_CLICKED, () => {
         this.emit(GameViewEvent.AGAIN_BUTTON_CLICKED);
       });
     } else if (this.game.state === "win") {

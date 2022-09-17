@@ -1,7 +1,7 @@
 import { Text } from "pixi.js";
 import { ModalWindow } from "./ModalWindow";
-import { Button } from "../Button";
-import { ModalViewEvent } from "../../events/ModalViewEvent";
+import { Button } from "../components/Button";
+import { ModalWindowViewEvent } from "../../events/ModalWindowViewEvent";
 
 export class LosingWindow extends ModalWindow {
   button: Button;
@@ -37,7 +37,7 @@ export class LosingWindow extends ModalWindow {
 
   //** Handler of click to button.
   buttonUpHandler() {
-    this.emit(ModalViewEvent.BUTTON_CLICKED);
+    this.emit(ModalWindowViewEvent.BUTTON_CLICKED);
   }
 
   destroy() {
