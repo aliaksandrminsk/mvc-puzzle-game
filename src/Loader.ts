@@ -13,6 +13,9 @@ export class Loader {
       assetsMap.sprites.forEach((value) =>
         this.loader.add(value.name, value.url)
       );
+      assetsMap.sounds.forEach((value) =>
+        this.loader.add(value.name, value.url)
+      );
       this.loader.load(() => {
         resolve();
       });

@@ -3,12 +3,14 @@ import TWEEN from "@tweenjs/tween.js";
 import { Point } from "pixi.js";
 import { GridViewViewEvent } from "../events/GridViewEvent";
 import { PuzzlePiece } from "../models/PuzzlePiece";
+import { Sound } from "@pixi/sound";
 
 export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   sprite: PIXI.Sprite;
   touchPosition: Point = new Point(0, 0);
   dragging: boolean = false;
   pieceData: PuzzlePiece;
+  clickSound: Sound;
 
   constructor(type: number, field: Point, area: number) {
     super();
@@ -19,6 +21,7 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.scale.set(0.5);
     this.sprite.interactive = true;
+    this.clickSound = Sound.from(PIXI.Loader.shared.resources.clickSound);
   }
 
   setEnabled(value: boolean) {
@@ -82,6 +85,7 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
     this.dragging = false;
     this.sprite.zIndex = 1;
     this.emit(GridViewViewEvent.DRAG_END);
+    this.clickSound.play();
   }
 
   get left() {
