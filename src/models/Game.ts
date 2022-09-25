@@ -3,15 +3,12 @@ import * as utils from "@pixi/utils";
 import { GameEvent } from "../events/GameEvent";
 
 export class Game extends utils.EventEmitter {
-  public backgroundTexture: string = "";
-
   protected _grid: Grid;
   protected _state: string = "init";
 
-  constructor(backgroundTexture: string = "") {
+  constructor() {
     super();
     this._grid = new Grid();
-    this.backgroundTexture = backgroundTexture;
   }
 
   public get grid(): Grid {

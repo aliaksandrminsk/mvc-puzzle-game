@@ -33,19 +33,13 @@ export class App {
 
   //** Start game.
   start() {
-    const { h, w, backgroundTexture = "" } = this.check_device();
-
     // Create game MVC.
-    this._gameModel = new Game(backgroundTexture);
+    this._gameModel = new Game();
     this._gameView = new GameView(this._gameModel);
     this._gameController = new GameController(this._gameModel, this._gameView);
 
     // Size and resize game.
     window.addEventListener("resize", () => this.resize());
-    this.render.view.style.display = "block";
-    this.render.view.style.width = w + "px";
-    this.render.view.style.height = h + "px";
-    this.resize();
     this.resize();
 
     // Render game.
@@ -58,41 +52,25 @@ export class App {
     });
   }
 
-  // Get screen size.
-  check_device() {
-    let h, w, backgroundTexture;
-    if (PIXI.utils.isMobile.any) {
-      if (window.innerHeight > window.innerWidth) {
-        h = constants.GAME_AREA_SIZE_L;
-        w = constants.GAME_AREA_SIZE_S;
-        backgroundTexture = "bg_portrait";
-      } else {
-        h = constants.GAME_AREA_SIZE_S;
-        w = constants.GAME_AREA_SIZE_L;
-        backgroundTexture = "bg";
-      }
-    } else {
-      h = constants.GAME_AREA_SIZE_S;
-      w = constants.GAME_AREA_SIZE_L;
-      backgroundTexture = "bg";
-    }
-    return {
-      h,
-      w,
-      backgroundTexture,
-    };
-  }
-
   // Resize game.
   resize() {
-    const ratio = constants.GAME_AREA_SIZE_L / constants.GAME_AREA_SIZE_S;
-    let w, h;
-    if (window.innerWidth / window.innerHeight >= ratio) {
-      w = window.innerHeight * ratio;
-      h = window.innerHeight;
+    let w = constants.GAME_AREA_SIZE_L;
+    let h = constants.GAME_AREA_SIZE_S;
+
+    let heightRatio = 1,
+      widthRation = 1;
+    if (w > document.body.clientWidth) {
+      widthRation = w / document.body.clientWidth;
+    }
+    if (h > document.body.clientHeight) {
+      heightRatio = h / document.body.clientHeight;
+    }
+    if (widthRation > heightRatio) {
+      h = h / widthRation;
+      w = w / widthRation;
     } else {
-      w = window.innerWidth;
-      h = window.innerWidth / ratio;
+      h = h / heightRatio;
+      w = w / heightRatio;
     }
     this.render.view.style.width = w + "px";
     this.render.view.style.height = h + "px";

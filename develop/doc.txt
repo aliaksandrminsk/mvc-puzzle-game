@@ -8,6 +8,14 @@ Tasks:
 8) background depends on screen size.
 9) clear listeners.
 10) name for event
+11) npm i @pixi/utils
+12) npm i pixi.js
+13) resize in controller
+14) event via view.on or  window.dispatchEvent(new Event(InnerEventType.SUB_MENU_OPENED));?
+15) remove check_device
+16) GAME_AREA_SIZE_L and GAME_AREA_SIZE_S => windth nad height
+17) resize thye same like in runner game.
+18) lint
 
 Links: 
 a)  https://www.youtube.com/watch?v=eXl-jSSJs-Y  https://www.youtube.com/watch?v=9shKSKcSGDo
