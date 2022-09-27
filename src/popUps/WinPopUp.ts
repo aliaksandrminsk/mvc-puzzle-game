@@ -1,7 +1,7 @@
 import { Text } from "pixi.js";
-import { ModalWindow } from "./ModalWindow";
+import { BasePopUp } from "./BasePopUp";
 
-export class WinWindow extends ModalWindow {
+export class WinPopUp extends BasePopUp {
   constructor() {
     super();
 
@@ -23,6 +23,6 @@ export class WinWindow extends ModalWindow {
     this.content.addChild(title);
   }
   destroy() {
-    console.log("Destroy WinWindow!");
+    console.log("Destroy win popUp!");
   }
 }

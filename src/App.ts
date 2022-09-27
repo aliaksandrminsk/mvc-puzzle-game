@@ -1,21 +1,17 @@
 import * as PIXI from "pixi.js";
 import { Loader } from "./Loader";
-import { GameController } from "./controllers/GameController";
-import { GameView } from "./views/GameView";
-import { Game } from "./models/Game";
-import { constants } from "./constants";
+import { GameController } from "./GameController";
+import { GameView } from "./GameView";
+import { GameModel } from "./GameModel";
+import { gameConstants } from "./GameConstants";
 
 export class App {
-  protected _gameModel: Game | null = null;
-  protected _gameController: GameController | null = null;
-  protected _gameView: GameView | null = null;
-
   private render: PIXI.AbstractRenderer;
 
   constructor() {
     this.render = PIXI.autoDetectRenderer({
-      width: constants.GAME_AREA_SIZE_L,
-      height: constants.GAME_AREA_SIZE_S,
+      width: gameConstants.GAME_AREA_SIZE_L,
+      height: gameConstants.GAME_AREA_SIZE_S,
       backgroundColor: 0xff0000,
       resolution: window.devicePixelRatio,
     });
@@ -34,28 +30,28 @@ export class App {
   //** Start game.
   start() {
     // Create game MVC.
-    this._gameModel = new Game();
-    this._gameView = new GameView(this._gameModel);
-    this._gameController = new GameController(this._gameModel, this._gameView);
+    const gameModel = new GameModel();
+    const gameView = new GameView();
+    new GameController(gameModel, gameView);
 
     // Size and resize game.
     window.addEventListener("resize", () => this.resize());
     this.resize();
 
     // Render game.
-    this.render.render(this._gameView.container);
+    this.render.render(gameView.container);
     const ticker = PIXI.Ticker.shared;
     ticker.add(() => {
-      if (this._gameView) {
-        this.render.render(this._gameView.container);
+      if (gameView) {
+        this.render.render(gameView.container);
       }
     });
   }
 
   // Resize game.
   resize() {
-    let w = constants.GAME_AREA_SIZE_L;
-    let h = constants.GAME_AREA_SIZE_S;
+    let w = gameConstants.GAME_AREA_SIZE_L;
+    let h = gameConstants.GAME_AREA_SIZE_S;
 
     let heightRatio = 1,
       widthRation = 1;

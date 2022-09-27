@@ -16,6 +16,7 @@ Tasks:
 16) GAME_AREA_SIZE_L and GAME_AREA_SIZE_S => windth nad height
 17) resize thye same like in runner game.
 18) lint and lint-staged
+19)Клас plane у колі
 
 Links: 
 a)  https://www.youtube.com/watch?v=eXl-jSSJs-Y  https://www.youtube.com/watch?v=9shKSKcSGDo

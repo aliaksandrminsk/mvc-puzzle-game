@@ -1,9 +1,10 @@
 import * as PIXI from "pixi.js";
 import TWEEN from "@tweenjs/tween.js";
 import { Point } from "pixi.js";
-import { GridViewViewEvent } from "../events/GridViewEvent";
-import { PuzzlePiece } from "../models/PuzzlePiece";
+//import { GridViewViewEvent } from "../_events/GridViewEvent";
+import { PuzzlePiece } from "./PuzzlePiece";
 import { Sound } from "@pixi/sound";
+import { GameEvents } from "../GameEvents";
 
 export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   sprite: PIXI.Sprite;
@@ -14,6 +15,7 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
 
   constructor(type: number, field: Point, area: number) {
     super();
+    console.log("PuzzlePieceView constructor");
     this.pieceData = new PuzzlePiece(type, field, area);
     this.sprite = PIXI.Sprite.from(`puzzle${type}`);
     this.sprite.x = field.x;
@@ -25,6 +27,7 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   }
 
   setEnabled(value: boolean) {
+    console.log("setEnabled");
     if (value) {
       this.sprite.on("pointerdown", (e: PIXI.InteractionEvent) =>
         this.onTouchStart(e)
@@ -41,6 +44,8 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   }
 
   onTouchStart(event: PIXI.InteractionEvent) {
+    console.log("onTouchStart");
+
     // 1. save the position of the mouse cursor
     this.touchPosition = new Point(event.data.global.x, event.data.global.y);
 
@@ -50,6 +55,7 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   }
 
   onTouchMove(event: PIXI.InteractionEvent) {
+    console.log("onTouchMove");
     if (!this.dragging) {
       return;
     }
@@ -67,6 +73,7 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   }
 
   reset() {
+    console.log("reset 1", this.sprite.x, this.sprite.y);
     const tween = new TWEEN.Tween(this.sprite);
     tween.to({ x: this.pieceData.field.x, y: this.pieceData.field.y }, 300);
     tween.onStart(() => {
@@ -79,12 +86,14 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
     tween.start();
     this.sprite.x = this.pieceData.field.x;
     this.sprite.y = this.pieceData.field.y;
+    console.log("reset 2", this.sprite.x, this.sprite.y);
   }
 
   onTouchEnd() {
+    console.log("onTouchEnd");
     this.dragging = false;
     this.sprite.zIndex = 1;
-    this.emit(GridViewViewEvent.DRAG_END);
+    this.emit(GameEvents.DRAG_END);
     this.clickSound.play();
   }
 

@@ -1,9 +1,11 @@
 import { Text } from "pixi.js";
-import { ModalWindow } from "./ModalWindow";
-import { Button } from "../components/Button";
-import { ModalWindowViewEvent } from "../../events/ModalWindowViewEvent";
+import { BasePopUp } from "./BasePopUp";
+import { Button } from "./Button";
+//import { ModalWindowViewEvent } from "../_events/ModalWindowViewEvent";
+import { globalEvent } from "@billjs/event-emitter";
+import { GameEvents } from "../GameEvents";
 
-export class LosingWindow extends ModalWindow {
+export class LosingPopUp extends BasePopUp {
   button: Button;
   boundButtonUp = () => this.buttonUpHandler();
 
@@ -37,7 +39,8 @@ export class LosingWindow extends ModalWindow {
 
   //** Handler of click to button.
   buttonUpHandler() {
-    this.emit(ModalWindowViewEvent.BUTTON_CLICKED);
+    //this.emit(ModalWindowViewEvent.BUTTON_CLICKED);
+    globalEvent.fire(GameEvents.AGAIN_BUTTON_CLICKED);
   }
 
   destroy() {

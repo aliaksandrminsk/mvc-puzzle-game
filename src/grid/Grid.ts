@@ -1,16 +1,17 @@
-import { PuzzlePieceView } from "../views/PuzzlePieceView";
-import * as utils from "@pixi/utils";
+import { PuzzlePieceView } from "../puzzlePiece/PuzzlePieceView";
+//import * as utils from "@pixi/utils";
 import { puzzleGridPositions } from "../config";
 import { Point } from "pixi.js";
-import { GameEvent } from "../events/GameEvent";
+//import { GameEvent } from "../_events/GameEvent";
+//import { GridEvents } from "./GridEvents";
+//import { globalEvent } from "@billjs/event-emitter";
 
-export class Grid extends utils.EventEmitter {
+export class Grid {
   public _pieces: Array<PuzzlePieceView> = [];
 
-  constructor() {
-    super();
-    this.createPuzzlePieces();
-  }
+  //constructor() {
+  //this.createPuzzlePieces();
+  //}
 
   //** Create puzzle pieces.
   public createPuzzlePieces() {
@@ -38,15 +39,15 @@ export class Grid extends utils.EventEmitter {
   }
 
   //** Clear puzzle pieces.
-  public clear() {
-    this.emit(GameEvent.CLEAR_GRID);
-    this._pieces = [];
-  }
+  //public clear() {
+  //globalEvent.fire(GridEvents.CLEAR_GRID);
+  //this._pieces = [];
+  //}
 
   //** Setter/Getter pieces.
   public set pieces(arr: Array<PuzzlePieceView>) {
     this._pieces = arr;
-    this.emit(GameEvent.GRID_UPDATED);
+    //globalEvent.fire(GridEvents.GRID_UPDATED);
   }
 
   public get pieces() {
