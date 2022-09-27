@@ -15,9 +15,15 @@ Tasks:
 15) remove check_device
 16) GAME_AREA_SIZE_L and GAME_AREA_SIZE_S => windth nad height
 17) resize thye same like in runner game.
-18) lint
+18) lint and lint-staged
 
 Links: 
 a)  https://www.youtube.com/watch?v=eXl-jSSJs-Y  https://www.youtube.com/watch?v=9shKSKcSGDo
 b) https://alexatnet.com/model-view-controller-mvc-in-javascript_ru/
 c) e:\WORK2021\Examples for my site\PixiJS\from internet\hidden-blocks-master\
+
+npx husky add .husky/pre-commit "lint-staged"
+
+
+
+npx husky add .husky/pre-commit "npx lint-staged"
