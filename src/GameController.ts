@@ -5,6 +5,7 @@ import { globalEvent } from "@billjs/event-emitter";
 import { GridController } from "./grid/GridController";
 import { PopUpController } from "./popUps/PopUpController";
 import { GameEvents } from "./GameEvents";
+import { TimerSliderController } from "./timerSlider/TimerSliderController";
 
 export class GameController {
   private readonly gameModel: GameModel;
@@ -12,6 +13,7 @@ export class GameController {
 
   protected gridController: GridController;
   protected popUpController: PopUpController;
+  protected timerSliderController: TimerSliderController;
 
   private gameTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -36,6 +38,10 @@ export class GameController {
     this.popUpController.losing = this.gameView.losingPopUp;
     this.popUpController.intro.show();
 
+    this.timerSliderController = new TimerSliderController(
+      this.gameView.slider
+    );
+
     //** Add listeners to the GameController.
     globalEvent.on(GameEvents.START_BUTTON_CLICKED, () => this.startGame());
     globalEvent.on(GameEvents.AGAIN_BUTTON_CLICKED, () => this.startGame());
@@ -55,7 +61,7 @@ export class GameController {
     this.gameModel.state = GameSate.PLAY;
     //this.gameModel.grid.clear();
     //this.gameModel.grid.createPuzzlePieces();
-    this.gameView.slider.start(gameConstants.GAME_DURATION);
+    this.timerSliderController.start(gameConstants.GAME_DURATION);
     this.gameTimer = setTimeout(() => {
       this.loseGame();
       //globalEvent.fire(GameEvents.GAME_TIME_FINISHED);
@@ -65,13 +71,13 @@ export class GameController {
 
   //** Set state of lose game.
   public loseGame() {
-    this.gameView.slider.stop();
+    this.timerSliderController.stop();
     this.gameModel.state = GameSate.LOSE;
   }
 
   //** Set state of win game.
   public winGame() {
-    this.gameView.slider.stop();
+    this.timerSliderController.stop();
     this.gameModel.state = GameSate.WIN;
     if (this.gameTimer) clearTimeout(this.gameTimer);
   }

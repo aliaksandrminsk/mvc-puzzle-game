@@ -7,7 +7,7 @@ import { IntroPopUp } from "./popUps/IntroPopUp";
 import { LosingPopUp } from "./popUps/LosingPopUp";
 import { WinPopUp } from "./popUps/WinPopUp";
 import { GridView } from "./grid/GridView";
-import { TimerSlider } from "./timerSlider/TimerSlider";
+import { TimerSliderView } from "./timerSlider/TimerSliderView";
 //import { gameConstants } from "./GameConstants";
 //import { GameViewEvent } from "./_events/GameViewEvent";
 //import { GameEvent } from "./_events/GameEvent";
@@ -23,7 +23,7 @@ export class GameView {
   public winPopUp: WinPopUp;
 
   public container: Container;
-  public readonly slider: TimerSlider;
+  public readonly slider: TimerSliderView;
   private readonly bg: Sprite;
 
   //private gameTimer: ReturnType<typeof setTimeout> | null = null;
@@ -52,7 +52,7 @@ export class GameView {
     title.position.set(this.bg.width / 2, 200);
 
     //** Slider.
-    this.slider = new TimerSlider();
+    this.slider = new TimerSliderView();
     this.container.addChild(this.slider);
     this.slider.position.set(this.bg.width / 2, this.bg.height / 2 + 370);
 
