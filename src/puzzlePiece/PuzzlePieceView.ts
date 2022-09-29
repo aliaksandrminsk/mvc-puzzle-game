@@ -27,7 +27,6 @@ export class PuzzlePieceView extends PIXI.utils.EventEmitter {
   }
 
   setEnabled(value: boolean) {
-    console.log("setEnabled");
     if (value) {
       this.sprite.on("pointerdown", (e: PIXI.InteractionEvent) =>
         this.onTouchStart(e)
