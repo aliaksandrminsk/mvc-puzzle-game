@@ -1,4 +1,3 @@
-//import * as utils from "@pixi/utils";
 import { Container, Graphics } from "pixi.js";
 import { gameConstants } from "../GameConstants";
 

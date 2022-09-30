@@ -1,9 +1,6 @@
 import { Text } from "pixi.js";
 import { BasePopUp } from "./BasePopUp";
-import { Button } from "./Button";
-//import { globalEvent } from "@billjs/event-emitter";
-//import { GameViewEvent } from "../_events/GameViewEvent";
-//import { ModalWindowViewEvent } from "../_events/ModalWindowViewEvent";
+import { Button } from "../utils/Button";
 import { GameEvents } from "../GameEvents";
 import { globalEvent } from "@billjs/event-emitter";
 
@@ -42,7 +39,6 @@ export class IntroPopUp extends BasePopUp {
 
   //** Handler of click to button.
   buttonUpHandler() {
-    //this.button.emit(ModalWindowViewEvent.BUTTON_CLICKED);
     globalEvent.fire(GameEvents.START_BUTTON_CLICKED);
   }
 

@@ -1,7 +1,6 @@
 import { Text } from "pixi.js";
 import { BasePopUp } from "./BasePopUp";
-import { Button } from "./Button";
-//import { ModalWindowViewEvent } from "../_events/ModalWindowViewEvent";
+import { Button } from "../utils/Button";
 import { globalEvent } from "@billjs/event-emitter";
 import { GameEvents } from "../GameEvents";
 
