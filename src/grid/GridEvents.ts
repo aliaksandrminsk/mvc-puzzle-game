@@ -1,5 +1,3 @@
 export const GridEvents = {
   CHANGE_PIECE_POS: "CHANGE_PIECE_POS",
-  //CLEAR_GRID: "CLEAR_GRID",
-  //GRID_UPDATED: "GRID_UPDATED",
 };
