@@ -40,7 +40,7 @@ export class GameController {
     globalEvent.on(GameEvents.WIN_GAME, () => this.winGame());
   }
 
-  //** Set state when user play a game.
+  //** Handler of click event to start or again button.
   public startGame() {
     this.gameModel.state = GameSate.PLAY;
     this.timerSliderController.start(gameConstants.GAME_DURATION);
@@ -49,13 +49,13 @@ export class GameController {
     }, gameConstants.GAME_DURATION);
   }
 
-  //** Set state of lose game.
+  //** Handler of losing game.
   public loseGame() {
     this.timerSliderController.stop();
     this.gameModel.state = GameSate.LOSE;
   }
 
-  //** Set state of win game.
+  //** Handler of winning game.
   public winGame() {
     this.timerSliderController.stop();
     this.gameModel.state = GameSate.WIN;
