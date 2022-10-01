@@ -22,6 +22,7 @@ export class GameController {
     this.gameModel = game;
     this.gameView = gameView;
 
+    //** Create controllers.
     this.gridController = new GridController(this.gameView.gridView);
     this.gameView.setGridPosition();
 
@@ -35,7 +36,7 @@ export class GameController {
       this.gameView.slider
     );
 
-    //** Add listeners to the GameController.
+    //** Add listeners to GameController.
     globalEvent.on(GameEvents.START_BUTTON_CLICKED, () => this.startGame());
     globalEvent.on(GameEvents.AGAIN_BUTTON_CLICKED, () => this.startGame());
     globalEvent.on(GameEvents.WIN_GAME, () => this.winGame());
