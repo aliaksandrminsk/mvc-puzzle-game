@@ -6,6 +6,7 @@ import { GridController } from "./grid/GridController";
 import { PopUpController } from "./popUps/PopUpController";
 import { GameEvents } from "./GameEvents";
 import { TimerSliderController } from "./timerSlider/TimerSliderController";
+import { AbstractRenderer } from "pixi.js";
 
 export class GameController {
   private readonly gameModel: GameModel;
@@ -60,5 +61,29 @@ export class GameController {
     this.timerSliderController.stop();
     this.gameModel.state = GameSate.WIN;
     if (this.gameTimer) clearTimeout(this.gameTimer);
+  }
+
+  // Resize game.
+  resize(renderer: AbstractRenderer) {
+    let w = gameConstants.GAME_AREA_SIZE_L;
+    let h = gameConstants.GAME_AREA_SIZE_S;
+
+    let heightRatio = 1,
+      widthRation = 1;
+    if (w > document.body.clientWidth) {
+      widthRation = w / document.body.clientWidth;
+    }
+    if (h > document.body.clientHeight) {
+      heightRatio = h / document.body.clientHeight;
+    }
+    if (widthRation > heightRatio) {
+      h = h / widthRation;
+      w = w / widthRation;
+    } else {
+      h = h / heightRatio;
+      w = w / heightRatio;
+    }
+    renderer.view.style.width = w + "px";
+    renderer.view.style.height = h + "px";
   }
 }
