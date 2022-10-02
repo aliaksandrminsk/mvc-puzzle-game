@@ -1,9 +1,9 @@
 import { PuzzlePieceView } from "./PuzzlePieceView";
 import { PuzzlePiece } from "./PuzzlePiece";
 import { Loader, InteractionEvent, Point } from "pixi.js";
-import TWEEN from "@tweenjs/tween.js";
 import { GameEvents } from "../GameEvents";
 import { Sound } from "@pixi/sound";
+import { gsap } from "gsap";
 
 export class PuzzlePieceController {
   public view: PuzzlePieceView;
@@ -12,6 +12,8 @@ export class PuzzlePieceController {
   protected touchPosition: Point = new Point(0, 0);
   protected dragging: boolean = false;
   protected clickSound: Sound;
+
+  protected spriteTween: gsap.core.Tween | null = null;
 
   constructor(model: PuzzlePiece, view: PuzzlePieceView) {
     this.view = view;
@@ -62,18 +64,17 @@ export class PuzzlePieceController {
   }
 
   reset() {
-    const tween = new TWEEN.Tween(this.view.sprite);
-    tween.to({ x: this.model.field.x, y: this.model.field.y }, 300);
-    tween.onStart(() => {
-      this.view.sprite.zIndex = 1;
+    if (this.spriteTween) this.spriteTween.kill();
+    this.view.sprite.zIndex = 1;
+    this.spriteTween = gsap.to(this.view.sprite, {
+      duration: 0.3,
+      x: this.model.field.x,
+      y: this.model.field.y,
+      ease: "power2.out",
+      onComplete: () => {
+        this.view.sprite.zIndex = 0;
+      },
     });
-    tween.onComplete(() => {
-      this.view.sprite.zIndex = 0;
-    });
-    tween.easing(TWEEN.Easing.Back.Out);
-    tween.start();
-    this.view.sprite.x = this.model.field.x;
-    this.view.sprite.y = this.model.field.y;
   }
 
   onTouchEnd() {
@@ -83,12 +84,8 @@ export class PuzzlePieceController {
     this.clickSound.play();
   }
 
-  setPosition(field: Point) {
-    this.model.field = field;
-    this.reset();
-  }
-
   destroy() {
+    if (this.spriteTween) this.spriteTween.kill();
     this.view.sprite.removeAllListeners("pointerdown");
     this.view.sprite.removeAllListeners("pointermove");
     this.view.sprite.removeAllListeners("pointerup");
