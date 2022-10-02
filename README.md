@@ -1,4 +1,4 @@
-# Puzzle game
+# Merge Game
 
 This project is a puzzle game. Technologies: [PixiJS](https://pixijs.com/), [TypeScript](https://www.typescriptlang.org/) and [Webpack](https://webpack.js.org/)
 
@@ -11,5 +11,5 @@ npm install
 npm run start
 ```
 
-[Puzzle game
+[Merge Game
 ](https://mvc-puzzle-game.web.app/)
