@@ -16,6 +16,8 @@ export class GameView {
   public losingPopUp: LosingPopUp;
   public winPopUp: WinPopUp;
 
+  public scoreText: Text;
+
   protected bg: Sprite;
 
   constructor() {
@@ -39,12 +41,23 @@ export class GameView {
     });
     this.container.addChild(title);
     title.pivot.set(title.width / 2, title.height / 2);
-    title.position.set(this.bg.width / 2, 80);
+    title.position.set(this.bg.width / 2, 60);
+
+    //** Score
+    this.scoreText = new Text("", {
+      fontFamily: "Arial",
+      fontSize: 25,
+      fontWeight: "600",
+      fill: 0x001000,
+      align: "center",
+    });
+    this.container.addChild(this.scoreText);
+    this.setScoreTextPosition();
 
     //** Slider.
     this.slider = new TimerSliderView();
     this.container.addChild(this.slider);
-    this.slider.position.set(this.bg.width / 2, this.bg.height / 2 + 370);
+    this.slider.position.set(this.bg.width / 2, this.bg.height / 2 + 390);
 
     //** Create PopUps.
     this.introPopUp = new IntroPopUp();
@@ -61,6 +74,14 @@ export class GameView {
     this.gridView.container.x =
       this.bg.width / 2 - this.gridView.container.width / 2;
     this.gridView.container.y =
-      this.bg.height / 2 - this.gridView.container.height / 2;
+      this.bg.height / 2 - this.gridView.container.height / 2 + 20;
+  }
+
+  setScoreTextPosition() {
+    this.scoreText.pivot.set(
+      this.scoreText.width / 2,
+      this.scoreText.height / 2
+    );
+    this.scoreText.position.set(this.bg.width / 2, 120);
   }
 }

@@ -3,6 +3,7 @@ import { globalEvent } from "@billjs/event-emitter";
 
 export class GameModel {
   protected _state: GameSate = GameSate.INTRO;
+  protected _score = 0;
 
   public set state(value: GameSate) {
     this._state = value;
@@ -11,6 +12,15 @@ export class GameModel {
 
   public get state(): GameSate {
     return this._state;
+  }
+
+  public set score(value: number) {
+    this._score = value;
+    globalEvent.fire(GameEvents.SCORE_UPDATED, value);
+  }
+
+  public get score(): number {
+    return this._score;
   }
 }
 

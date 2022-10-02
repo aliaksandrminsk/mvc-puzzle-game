@@ -123,9 +123,7 @@ export class GridController {
       this.removePuzzlePiece(piece);
       this.removePuzzlePiece(pieceToReplace);
 
-      if (this.isWinCombination()) {
-        globalEvent.fire(GameEvents.WIN_GAME);
-      }
+      globalEvent.fire(GameEvents.FRUITS_MERGED, this.isWinCombination());
     } else {
       piece.reset();
     }

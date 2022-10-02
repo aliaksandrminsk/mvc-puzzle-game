@@ -1,7 +1,7 @@
 import { GameModel, GameSate } from "./GameModel";
 import { GameView } from "./GameView";
 import { gameConstants } from "./GameConstants";
-import { globalEvent } from "@billjs/event-emitter";
+import { globalEvent, Event } from "@billjs/event-emitter";
 import { GridController } from "./grid/GridController";
 import { PopUpController } from "./popUps/PopUpController";
 import { GameEvents } from "./GameEvents";
@@ -39,11 +39,13 @@ export class GameController {
     //** Add listeners to GameController.
     globalEvent.on(GameEvents.START_BUTTON_CLICKED, () => this.startGame());
     globalEvent.on(GameEvents.AGAIN_BUTTON_CLICKED, () => this.startGame());
-    globalEvent.on(GameEvents.WIN_GAME, () => this.winGame());
+    globalEvent.on(GameEvents.FRUITS_MERGED, (e) => this.mergeFruits(e));
+    globalEvent.on(GameEvents.SCORE_UPDATED, () => this.updateScoreText());
   }
 
   //** Handler of click event to start or again button.
   public startGame() {
+    this.gameModel.score = 0;
     this.gameModel.state = GameSate.PLAY;
     this.timerSliderController.start(gameConstants.GAME_DURATION);
     this.gameTimer = setTimeout(() => {
@@ -57,11 +59,21 @@ export class GameController {
     this.gameModel.state = GameSate.LOSE;
   }
 
-  //** Handler of winning game.
-  public winGame() {
-    this.timerSliderController.stop();
-    this.gameModel.state = GameSate.WIN;
-    if (this.gameTimer) clearTimeout(this.gameTimer);
+  //** Handler when fruits were merged.
+  public mergeFruits(event: Event) {
+    this.gameModel.score++;
+    const isWinGame = event.data;
+    if (isWinGame) {
+      this.timerSliderController.stop();
+      this.gameModel.state = GameSate.WIN;
+      if (this.gameTimer) clearTimeout(this.gameTimer);
+    }
+  }
+
+  //** Handler of updating score in model.
+  updateScoreText() {
+    this.gameView.scoreText.text = "Score: " + this.gameModel.score;
+    this.gameView.setScoreTextPosition();
   }
 
   // Resize game.
