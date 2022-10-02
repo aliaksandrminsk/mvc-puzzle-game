@@ -39,7 +39,7 @@ export class GameView {
     });
     this.container.addChild(title);
     title.pivot.set(title.width / 2, title.height / 2);
-    title.position.set(this.bg.width / 2, 200);
+    title.position.set(this.bg.width / 2, 80);
 
     //** Slider.
     this.slider = new TimerSliderView();

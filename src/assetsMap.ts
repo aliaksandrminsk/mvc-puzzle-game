@@ -1,10 +1,10 @@
 export const assetsMap = {
   sprites: [
     { name: "bg", url: "./sprites/bg.jpg" },
-    { name: "puzzle1", url: "./sprites/n1.png" },
-    { name: "puzzle2", url: "./sprites/n2.png" },
-    { name: "puzzle3", url: "./sprites/n3.png" },
-    { name: "puzzle4", url: "./sprites/n4.png" },
+    { name: "fruit1", url: "./sprites/fruit1.png" },
+    { name: "fruit2", url: "./sprites/fruit2.png" },
+    { name: "fruit3", url: "./sprites/fruit3.png" },
+    { name: "fruit4", url: "./sprites/fruit4.png" },
     { name: "button", url: "./sprites/button.png" },
     { name: "particle", url: "./sprites/particle.png" },
   ],

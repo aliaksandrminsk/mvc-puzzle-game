@@ -4,7 +4,7 @@ export class PuzzlePieceView {
   public sprite: Sprite;
 
   constructor(type: number) {
-    this.sprite = Sprite.from(`puzzle${type}`);
+    this.sprite = Sprite.from(`fruit${type}`);
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.scale.set(0.5);
     this.sprite.interactive = true;
