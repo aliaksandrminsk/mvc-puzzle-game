@@ -1,4 +1,4 @@
-import { Container, Sprite, Texture } from "pixi.js";
+import { Container, Sprite, Texture, Point, SimpleRope } from "pixi.js";
 import { Text } from "pixi.js";
 import { IntroPopUp } from "./popUps/IntroPopUp";
 import { LosingPopUp } from "./popUps/LosingPopUp";
@@ -31,19 +31,34 @@ export class GameView {
     this.gridView = new GridView();
     this.container.addChild(this.gridView.container);
 
-    //** Title
-    const title = new Text("Puzzle Game", {
+    //** Title.
+    const title = new Text("Merge Symbol Game", {
       fontFamily: "Arial",
       fontSize: 50,
       fontWeight: "600",
       fill: 0x0010ff,
       align: "center",
     });
-    this.container.addChild(title);
-    title.pivot.set(title.width / 2, title.height / 2);
-    title.position.set(this.bg.width / 2, 60);
+    title.updateText(false);
+    const radius = 500;
+    const maxRopePoints = 140;
+    const step = Math.PI / maxRopePoints;
+    let ropePoints =
+      maxRopePoints -
+      Math.round((title.texture.width / (radius * Math.PI)) * maxRopePoints);
+    ropePoints /= 2;
+    const points = [];
+    for (let i = maxRopePoints - ropePoints; i > ropePoints; i--) {
+      const x = radius * Math.cos(step * i);
+      const y = radius * Math.sin(step * i);
+      points.push(new Point(x, -y + radius));
+    }
+    const texture = title.texture;
+    const ropeTitle = new SimpleRope(texture, points);
+    ropeTitle.position.set(this.bg.width / 2, 50);
+    this.container.addChild(ropeTitle);
 
-    //** Score
+    //** Score.
     this.scoreText = new Text("", {
       fontFamily: "Arial",
       fontSize: 25,
