@@ -39,7 +39,7 @@ export class GameView {
       fill: 0x0010ff,
       align: "center",
     });
-    title.updateText(false);
+    title.updateText(true);
     const radius = 500;
     const maxRopePoints = 140;
     const step = Math.PI / maxRopePoints;
