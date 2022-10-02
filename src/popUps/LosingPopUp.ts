@@ -38,7 +38,6 @@ export class LosingPopUp extends BasePopUp {
 
   //** Handler of click to button.
   buttonUpHandler() {
-    //this.emit(ModalWindowViewEvent.BUTTON_CLICKED);
     globalEvent.fire(GameEvents.AGAIN_BUTTON_CLICKED);
   }
 
