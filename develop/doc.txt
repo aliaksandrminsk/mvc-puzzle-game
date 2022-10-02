@@ -1,24 +1,12 @@
 Tasks: 
 1) .eslintrc.js
 2) webpack.config.js
-4) add sound
 5) test tasks
-6) language window in ereact
+6) language window in react
 7) localization in excel.
-8) background depends on screen size.
-9) clear listeners.
-10) name for event
-11) npm i @pixi/utils
-12) npm i pixi.js
-13) resize in controller
-14) event via view.on or  window.dispatchEvent(new Event(InnerEventType.SUB_MENU_OPENED));?
-15) remove check_device
-16) GAME_AREA_SIZE_L and GAME_AREA_SIZE_S => windth nad height
-17) resize thye same like in runner game.
-18) lint and lint-staged
-19)Клас plane у колі
-20) Rope
-21_ score label
+8) lint and lint-staged
+9) Клас plane у колі
+
 
 Links: 
 a)  https://www.youtube.com/watch?v=eXl-jSSJs-Y  https://www.youtube.com/watch?v=9shKSKcSGDo
@@ -26,7 +14,4 @@ b) https://alexatnet.com/model-view-controller-mvc-in-javascript_ru/
 c) e:\WORK2021\Examples for my site\PixiJS\from internet\hidden-blocks-master\
 
 npx husky add .husky/pre-commit "lint-staged"
-
-
-
 npx husky add .husky/pre-commit "npx lint-staged"
