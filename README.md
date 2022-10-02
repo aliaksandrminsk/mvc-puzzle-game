@@ -1,6 +1,6 @@
 # Merge Game
 
-This project is a puzzle game. Technologies: [PixiJS](https://pixijs.com/), [TypeScript](https://www.typescriptlang.org/) and [Webpack](https://webpack.js.org/)
+This project is a merge game. Technologies: [PixiJS](https://pixijs.com/), [TypeScript](https://www.typescriptlang.org/) and [Webpack](https://webpack.js.org/)
 
 To run the package.
 
