@@ -4,7 +4,6 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const ESLintWebpackPlugin = require("eslint-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const isDev = process.env.NODE_ENV === "development";
 const isProd = !isDev;
@@ -17,7 +16,6 @@ const optimization = () => {
   };
   if (isProd) {
     config.minimizer = [
-      new CssMinimizerPlugin(),
       new TerserWebpackPlugin({ extractComments: false }),
     ];
   }
