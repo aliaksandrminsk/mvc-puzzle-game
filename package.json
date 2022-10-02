@@ -13,6 +13,7 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
+    "lint": "eslint src/",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -41,7 +42,8 @@
     "typescript": "4.8.4"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --fix",
-    "*.{ts,tsx,css,md}": "prettier --write"
+    "**/*.{js,ts}": [
+      "npm run lint"
+    ]
   }
 }
