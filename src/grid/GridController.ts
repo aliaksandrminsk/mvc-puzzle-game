@@ -2,10 +2,9 @@ import { GridView } from "./GridView";
 import { globalEvent, Event } from "@billjs/event-emitter";
 import { GameEvents } from "../GameEvents";
 import { GameSate } from "../GameModel";
-import { GridEvents } from "./GridEvents";
 import { PuzzlePieceView } from "../puzzlePiece/PuzzlePieceView";
 import { PuzzlePieceController } from "../puzzlePiece/PuzzlePieceController";
-import { puzzleGridPositions } from "../config";
+import { puzzleGridPositions, puzzleGridValues } from "../config";
 import { Point } from "pixi.js";
 import { PuzzlePiece } from "../puzzlePiece/PuzzlePiece";
 
@@ -16,19 +15,17 @@ export class GridController {
   constructor(gameView: GridView) {
     this.view = gameView;
 
-    //** Listener.
+    //** Create Grid.
+    this.create();
+
+    //** Add listener.
     globalEvent.on(GameEvents.CHANGE_GAME_STATE, (e: Event) =>
       this.setGameState(e)
     );
-    globalEvent.on(GridEvents.CHANGE_PIECE_POS, () => {
-      if (this.isWinCombination()) {
-        globalEvent.fire(GameEvents.WIN_GAME);
-      }
-    });
-    this.create();
   }
 
-  clear() {
+  //** Remove all pieces.
+  removeAllPuzzlePieces() {
     for (const piece of this.puzzlePieces) {
       this.view.container.removeChild(piece.view.sprite);
       piece.destroy();
@@ -36,9 +33,21 @@ export class GridController {
     this.puzzlePieces = [];
   }
 
+  //** Remove one piece.
+  removePuzzlePiece(piece: PuzzlePieceController) {
+    for (let i = 0; i < this.puzzlePieces.length; i++) {
+      if (this.puzzlePieces[i] === piece) {
+        this.view.container.removeChild(piece.view.sprite);
+        piece.destroy();
+        this.puzzlePieces.splice(i, 1);
+      }
+    }
+  }
+
+  //** Create Grid.
   create() {
     const positions = [...puzzleGridPositions];
-    const types = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];
+    const types = [...puzzleGridValues];
     while (positions.length > 0) {
       const positionsId = Math.floor(Math.random() * positions.length);
       const positionData = positions[positionsId];
@@ -48,14 +57,11 @@ export class GridController {
       const typeValue = types[typeId];
       types.splice(typeId, 1);
 
-      const puzzlePiece = new PuzzlePiece(
-        typeValue,
-        new Point(positionData.x, positionData.y),
-        positionData.area
-      );
+      const position = new Point(positionData.x, positionData.y);
+
+      const puzzlePiece = new PuzzlePiece(typeValue, position);
       const puzzlePieceView = new PuzzlePieceView(typeValue);
-      puzzlePieceView.sprite.x = positionData.x;
-      puzzlePieceView.sprite.y = positionData.y;
+      puzzlePieceView.setPosition(position);
 
       const puzzlePieceController = new PuzzlePieceController(
         puzzlePiece,
@@ -66,9 +72,10 @@ export class GridController {
     }
   }
 
+  //** Handler of changing of game state.
   setGameState(event: Event) {
     if (event.data === GameSate.PLAY) {
-      this.clear();
+      this.removeAllPuzzlePieces();
       this.create();
       this.enableInteractivity();
     } else {
@@ -76,6 +83,7 @@ export class GridController {
     }
   }
 
+  //** Enable grid.
   public enableInteractivity() {
     for (const piece of this.puzzlePieces) {
       piece.view.sprite.on(GameEvents.DRAG_END, () =>
@@ -85,6 +93,7 @@ export class GridController {
     }
   }
 
+  //** Disable grid.
   public disableInteractivity() {
     for (const piece of this.puzzlePieces) {
       piece.view.sprite.removeAllListeners(GameEvents.DRAG_END);
@@ -107,36 +116,23 @@ export class GridController {
         piece.view.sprite.y >= item.view.top
     );
 
-    if (pieceToReplace) {
-      const replaceField = pieceToReplace.model.field;
-      const replaceArea = pieceToReplace.model.area;
-      pieceToReplace.setPosition(piece.model.field, piece.model.area);
-      piece.setPosition(replaceField, replaceArea);
-      //this.emit(GameViewEvent.CHANGE_PIECE_POS);
-      globalEvent.fire(GridEvents.CHANGE_PIECE_POS);
+    //** If pieces have the same type then they will be destroyed.
+    if (pieceToReplace && pieceToReplace.model.type === piece.model.type) {
+      this.view.showExplosion(pieceToReplace.model.field); //Show explosion animation.
+
+      this.removePuzzlePiece(piece);
+      this.removePuzzlePiece(pieceToReplace);
+
+      if (this.isWinCombination()) {
+        globalEvent.fire(GameEvents.WIN_GAME);
+      }
     } else {
       piece.reset();
     }
   }
 
+  //** Check if player won game.
   public isWinCombination() {
-    for (let areaId = 0; areaId < 4; areaId++) {
-      const types = [];
-
-      for (const piece of this.puzzlePieces) {
-        if (piece.model.area === areaId) {
-          types.push(piece.model.type);
-        }
-      }
-      if (types.length !== 4) {
-        return false;
-      }
-      for (let index = 1; index < types.length; index++) {
-        if (types[index - 1] != types[index]) {
-          return false;
-        }
-      }
-    }
-    return true;
+    return this.puzzlePieces.length === 0 ? true : false;
   }
 }

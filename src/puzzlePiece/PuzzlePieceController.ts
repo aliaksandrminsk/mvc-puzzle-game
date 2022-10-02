@@ -83,9 +83,8 @@ export class PuzzlePieceController {
     this.clickSound.play();
   }
 
-  setPosition(field: Point, area: number) {
+  setPosition(field: Point) {
     this.model.field = field;
-    this.model.area = area;
     this.reset();
   }
 

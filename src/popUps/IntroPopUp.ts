@@ -18,7 +18,7 @@ export class IntroPopUp extends BasePopUp {
     this.popUpBackground.pivot.set(270, 150);
 
     //** Create title.
-    const title = new Text("GROUP ALL SIMILAR ITEMS\n BEFORE TIME RUNS OUT", {
+    const title = new Text("MERGE ALL SIMILAR ITEMS\n BEFORE TIME RUNS OUT", {
       fontFamily: "Arial",
       fontSize: 36,
       fill: 0x001010,

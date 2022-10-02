@@ -1,4 +1,4 @@
-import { Sprite } from "pixi.js";
+import { Sprite, Point } from "pixi.js";
 
 export class PuzzlePieceView {
   public sprite: Sprite;
@@ -8,6 +8,10 @@ export class PuzzlePieceView {
     this.sprite.pivot.set(this.sprite.width / 2, this.sprite.height / 2);
     this.sprite.scale.set(0.5);
     this.sprite.interactive = true;
+  }
+
+  setPosition(position: Point) {
+    this.sprite.position = position;
   }
 
   get left() {

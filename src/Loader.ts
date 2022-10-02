@@ -16,6 +16,7 @@ export class Loader {
       assetsMap.sounds.forEach((value) =>
         this.loader.add(value.name, value.url)
       );
+      this.loader.add("emitter.json", "./particles/emitter.json");
       this.loader.load(() => {
         resolve();
       });

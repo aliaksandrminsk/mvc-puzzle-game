@@ -17,6 +17,8 @@ Tasks:
 17) resize thye same like in runner game.
 18) lint and lint-staged
 19)Клас plane у колі
+20) Rope
+21_ score label
 
 Links: 
 a)  https://www.youtube.com/watch?v=eXl-jSSJs-Y  https://www.youtube.com/watch?v=9shKSKcSGDo
